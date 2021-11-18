@@ -1,4 +1,4 @@
-package com.example.sispre;
+package br.uff.sispre;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

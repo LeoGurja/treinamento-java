@@ -1,4 +1,4 @@
-package com.example.sispre;
+package br.uff.sispre;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
