@@ -11,46 +11,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.uff.sispre.forms.PessoaForm;
-import br.uff.sispre.models.Aluno;
+import br.uff.sispre.models.Professor;
 import br.uff.sispre.params.PessoaParams;
-import br.uff.sispre.repositories.AlunoRepository;
+import br.uff.sispre.repositories.ProfessorRepository;
 
 @RestController
-@RequestMapping(path = "/alunos")
-public class AlunosController {
+@RequestMapping(path = "/professores")
+public class ProfessoresController {
   @Autowired
-  private AlunoRepository alunoRepository;
+  private ProfessorRepository ProfessorRepository;
 
   @PostMapping
   public String create(@RequestBody PessoaParams params) {
-    Aluno aluno = new Aluno();
-    PessoaForm.apply(aluno, params);
-    alunoRepository.save(aluno);
+    Professor Professor = new Professor();
+    PessoaForm.apply(Professor, params);
+    ProfessorRepository.save(Professor);
     return "Saved";
   }
 
   @GetMapping
-  public Iterable<Aluno> index() {
-    return alunoRepository.findAll();
+  public Iterable<Professor> index() {
+    return ProfessorRepository.findAll();
   }
 
   @GetMapping(path = "/{id}")
-  public Aluno show(@PathVariable Long id) {
-    return alunoRepository.findById(id).get();
+  public Professor show(@PathVariable Long id) {
+    return ProfessorRepository.findById(id).get();
   }
 
   @PatchMapping(path = "/{id}")
   public String update(@RequestBody PessoaParams params, @PathVariable Long id) {
-    Aluno aluno = alunoRepository.findById(id).get();
-    PessoaForm.apply(aluno, params);
-    alunoRepository.save(aluno);
+    Professor Professor = ProfessorRepository.findById(id).get();
+    PessoaForm.apply(Professor, params);
+    ProfessorRepository.save(Professor);
     return "Updated";
   }
 
   @DeleteMapping(path = "/{id}")
   public String delete(@PathVariable Long id) {
-    Aluno aluno = alunoRepository.findById(id).get();
-    alunoRepository.delete(aluno);
+    Professor Professor = ProfessorRepository.findById(id).get();
+    ProfessorRepository.delete(Professor);
     return "Deleted";
   }
 }

@@ -1,6 +1,6 @@
 package br.uff.sispre.params;
 
-public class AlunoParams {
+public class PessoaParams {
   public String name;
   public String email;
   public String cpf;
