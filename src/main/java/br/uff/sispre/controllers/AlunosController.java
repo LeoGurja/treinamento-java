@@ -10,47 +10,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.uff.sispre.forms.PessoaForm;
 import br.uff.sispre.models.Aluno;
-import br.uff.sispre.params.PessoaParams;
-import br.uff.sispre.repositories.AlunoRepository;
+import br.uff.sispre.services.AlunoService;
 
 @RestController
 @RequestMapping(path = "/alunos")
 public class AlunosController {
   @Autowired
-  private AlunoRepository alunoRepository;
+  private AlunoService alunoService;
 
   @PostMapping
-  public String create(@RequestBody PessoaParams params) {
-    Aluno aluno = new Aluno();
-    PessoaForm.apply(aluno, params);
-    alunoRepository.save(aluno);
+  public String create(@RequestBody Aluno aluno) {
+    alunoService.create(aluno);
     return "Saved";
   }
 
   @GetMapping
   public Iterable<Aluno> index() {
-    return alunoRepository.findAll();
+    return alunoService.all();
   }
 
   @GetMapping(path = "/{id}")
   public Aluno show(@PathVariable Long id) {
-    return alunoRepository.findById(id).get();
+    return alunoService.find(id);
   }
 
   @PatchMapping(path = "/{id}")
-  public String update(@RequestBody PessoaParams params, @PathVariable Long id) {
-    Aluno aluno = alunoRepository.findById(id).get();
-    PessoaForm.apply(aluno, params);
-    alunoRepository.save(aluno);
+  public String update(@RequestBody Aluno aluno, @PathVariable Long id) {
+    alunoService.update(id, aluno);
     return "Updated";
   }
 
   @DeleteMapping(path = "/{id}")
   public String delete(@PathVariable Long id) {
-    Aluno aluno = alunoRepository.findById(id).get();
-    alunoRepository.delete(aluno);
+    alunoService.delete(id);
     return "Deleted";
   }
 }

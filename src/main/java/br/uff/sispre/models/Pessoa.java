@@ -26,6 +26,8 @@ public abstract class Pessoa extends Model {
   @Column(name = "password_digest")
   private String passwordDigest;
 
+  private String password;
+
   public String getCpf() {
     return this.cpf;
   }
@@ -54,6 +56,10 @@ public abstract class Pessoa extends Model {
     return this.passwordDigest;
   }
 
+  public String getPassword() {
+    return this.password;
+  }
+
   public void setCpf(String cpf) {
     this.cpf = cpf;
   }
@@ -80,5 +86,9 @@ public abstract class Pessoa extends Model {
 
   public void setPasswordDigest(String passwordDigest) {
     this.passwordDigest = passwordDigest;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

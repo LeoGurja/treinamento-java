@@ -10,47 +10,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.uff.sispre.forms.PessoaForm;
 import br.uff.sispre.models.Professor;
-import br.uff.sispre.params.PessoaParams;
-import br.uff.sispre.repositories.ProfessorRepository;
+import br.uff.sispre.services.ProfessorService;
 
 @RestController
 @RequestMapping(path = "/professores")
 public class ProfessoresController {
   @Autowired
-  private ProfessorRepository ProfessorRepository;
+  private ProfessorService professorService;
 
   @PostMapping
-  public String create(@RequestBody PessoaParams params) {
-    Professor Professor = new Professor();
-    PessoaForm.apply(Professor, params);
-    ProfessorRepository.save(Professor);
+  public String create(@RequestBody Professor professor) {
+    professorService.create(professor);
     return "Saved";
   }
 
   @GetMapping
   public Iterable<Professor> index() {
-    return ProfessorRepository.findAll();
+    return professorService.all();
   }
 
   @GetMapping(path = "/{id}")
   public Professor show(@PathVariable Long id) {
-    return ProfessorRepository.findById(id).get();
+    return professorService.find(id);
   }
 
   @PatchMapping(path = "/{id}")
-  public String update(@RequestBody PessoaParams params, @PathVariable Long id) {
-    Professor Professor = ProfessorRepository.findById(id).get();
-    PessoaForm.apply(Professor, params);
-    ProfessorRepository.save(Professor);
+  public String update(@RequestBody Professor professor, @PathVariable Long id) {
+    professorService.update(id, professor);
     return "Updated";
   }
 
   @DeleteMapping(path = "/{id}")
   public String delete(@PathVariable Long id) {
-    Professor Professor = ProfessorRepository.findById(id).get();
-    ProfessorRepository.delete(Professor);
+    professorService.delete(id);
     return "Deleted";
   }
 }
