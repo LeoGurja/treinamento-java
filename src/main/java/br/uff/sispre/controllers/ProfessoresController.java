@@ -20,9 +20,9 @@ public class ProfessoresController {
   private ProfessorService professorService;
 
   @PostMapping
-  public String create(@RequestBody Professor professor) {
+  public Professor create(@RequestBody Professor professor) {
     professorService.create(professor);
-    return "Saved";
+    return professor;
   }
 
   @GetMapping
@@ -36,9 +36,9 @@ public class ProfessoresController {
   }
 
   @PatchMapping(path = "/{id}")
-  public String update(@RequestBody Professor professor, @PathVariable Long id) {
+  public Professor update(@RequestBody Professor professor, @PathVariable Long id) {
     professorService.update(id, professor);
-    return "Updated";
+    return professor;
   }
 
   @DeleteMapping(path = "/{id}")

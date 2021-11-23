@@ -20,9 +20,9 @@ public class AlunosController {
   private AlunoService alunoService;
 
   @PostMapping
-  public String create(@RequestBody Aluno aluno) {
+  public Aluno create(@RequestBody Aluno aluno) {
     alunoService.create(aluno);
-    return "Saved";
+    return aluno;
   }
 
   @GetMapping
@@ -36,9 +36,9 @@ public class AlunosController {
   }
 
   @PatchMapping(path = "/{id}")
-  public String update(@RequestBody Aluno aluno, @PathVariable Long id) {
+  public Aluno update(@RequestBody Aluno aluno, @PathVariable Long id) {
     alunoService.update(id, aluno);
-    return "Updated";
+    return aluno;
   }
 
   @DeleteMapping(path = "/{id}")
