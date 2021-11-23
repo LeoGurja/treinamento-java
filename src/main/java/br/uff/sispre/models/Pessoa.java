@@ -5,7 +5,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class Pessoa extends Model {
-  @Column(name = "cpf", nullable = false, length = 11)
+  @Column(name = "cpf", nullable = false, length = 11, unique = true)
   private String cpf;
 
   @Column(name = "rg", nullable = false, length = 9)
