@@ -8,7 +8,7 @@ public abstract class Pessoa extends Model {
   @Column(name = "cpf", nullable = false, length = 11, unique = true)
   private String cpf;
 
-  @Column(name = "rg", nullable = false, length = 9)
+  @Column(name = "rg", nullable = false, length = 9, unique = true)
   private String rg;
 
   @Column(name = "name", nullable = false)
