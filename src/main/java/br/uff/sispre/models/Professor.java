@@ -1,6 +1,8 @@
 package br.uff.sispre.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +11,6 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Professor extends Pessoa {
-  public Professor() {
-  }
+  @OneToOne(fetch = FetchType.LAZY)
+  private Materia materia;
 }
