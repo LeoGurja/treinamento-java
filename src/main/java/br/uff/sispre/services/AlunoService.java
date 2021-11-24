@@ -13,29 +13,29 @@ import br.uff.sispre.repositories.AlunoRepository;
 @Service
 public class AlunoService {
   @Autowired
-  private AlunoRepository alunoRepository;
+  private AlunoRepository repo;
 
   public Aluno find(Long id) {
-    return alunoRepository.findById(id).get();
+    return repo.findById(id).get();
   }
 
   public void create(Aluno aluno) {
     sanitize(aluno);
-    alunoRepository.save(aluno);
+    repo.save(aluno);
   }
 
   public void update(Long id, Aluno aluno) {
     sanitize(aluno);
     compare(aluno, id);
-    alunoRepository.save(aluno);
+    repo.save(aluno);
   }
 
   public void delete(Long id) {
-    alunoRepository.deleteById(id);
+    repo.deleteById(id);
   }
 
   public Iterable<Aluno> all() {
-    return alunoRepository.findAll();
+    return repo.findAll();
   }
 
   private void sanitize(Aluno aluno) {
@@ -46,7 +46,7 @@ public class AlunoService {
   }
 
   private void compare(Aluno aluno, Long id) {
-    Aluno oldAluno = alunoRepository.findById(id).get();
+    Aluno oldAluno = repo.findById(id).get();
     if (!aluno.getCpf().equals(oldAluno.getCpf()))
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível alterar o cpf do aluno!");
   }

@@ -13,29 +13,29 @@ import br.uff.sispre.repositories.ProfessorRepository;
 @Service
 public class ProfessorService {
   @Autowired
-  private ProfessorRepository professorRepository;
+  private ProfessorRepository repo;
 
   public Professor find(Long id) {
-    return professorRepository.findById(id).get();
+    return repo.findById(id).get();
   }
 
   public void create(Professor professor) {
     sanitize(professor);
-    professorRepository.save(professor);
+    repo.save(professor);
   }
 
   public void update(Long id, Professor professor) {
     sanitize(professor);
     compare(professor, id);
-    professorRepository.save(professor);
+    repo.save(professor);
   }
 
   public void delete(Long id) {
-    professorRepository.deleteById(id);
+    repo.deleteById(id);
   }
 
   public Iterable<Professor> all() {
-    return professorRepository.findAll();
+    return repo.findAll();
   }
 
   private void sanitize(Professor professor) {
@@ -46,7 +46,7 @@ public class ProfessorService {
   }
 
   private void compare(Professor professor, Long id) {
-    Professor oldProfessor = professorRepository.findById(id).get();
+    Professor oldProfessor = repo.findById(id).get();
     if (!professor.getCpf().equals(oldProfessor.getCpf()))
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível alterar o cpf do professor!");
   }
