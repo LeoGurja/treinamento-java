@@ -1,5 +1,7 @@
 package br.uff.sispre.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,15 @@ public class TurmaService {
     repo.deleteById(id);
   }
 
-  public Iterable<Turma> all() {
-    return repo.findAll();
+  public List<Turma> all() {
+    return (List<Turma>) repo.findAll();
+  }
+
+  private void setAlunos(Turma turma) {
+
+  }
+
+  private void setMaterias(Turma turma) {
+
   }
 }
