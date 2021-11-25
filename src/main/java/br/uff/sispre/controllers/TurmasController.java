@@ -1,5 +1,8 @@
 package br.uff.sispre.controllers;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.uff.sispre.controllers.resources.TurmaResource;
 import br.uff.sispre.models.Turma;
 import br.uff.sispre.services.TurmaService;
 
@@ -20,25 +24,25 @@ public class TurmasController {
   private TurmaService turmaService;
 
   @PostMapping
-  public Turma create(@RequestBody Turma turma) {
+  public TurmaResource create(@RequestBody Turma turma) {
     turmaService.create(turma);
-    return turma;
+    return new TurmaResource(turma);
   }
 
   @GetMapping
-  public Iterable<Turma> index() {
-    return turmaService.all();
+  public Set<TurmaResource> index() {
+    return turmaService.all().stream().map(turma -> new TurmaResource(turma)).collect(Collectors.toSet());
   }
 
   @GetMapping(path = "/{id}")
-  public Turma show(@PathVariable Long id) {
-    return turmaService.find(id);
+  public TurmaResource show(@PathVariable Long id) {
+    return new TurmaResource(turmaService.find(id));
   }
 
   @PatchMapping(path = "/{id}")
-  public Turma update(@RequestBody Turma turma, @PathVariable Long id) {
+  public TurmaResource update(@RequestBody Turma turma, @PathVariable Long id) {
     turmaService.update(id, turma);
-    return turma;
+    return new TurmaResource(turma);
   }
 
   @DeleteMapping(path = "/{id}")
