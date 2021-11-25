@@ -2,6 +2,7 @@ package br.uff.sispre.models;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class Pessoa extends Model {
@@ -26,7 +27,8 @@ public abstract class Pessoa extends Model {
   @Column(name = "password_digest")
   private String passwordDigest;
 
-  private String password;
+  @Transient
+  private transient String password;
 
   public String getCpf() {
     return this.cpf;

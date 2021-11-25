@@ -1,6 +1,6 @@
 package br.uff.sispre.models;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,11 +16,11 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Materia extends Model {
-  @ManyToMany
-  private List<Turma> turmas;
+  @ManyToMany(mappedBy = "materias")
+  private Set<Turma> turmas;
 
-  @OneToMany
-  private List<Nota> notas;
+  @OneToMany(mappedBy = "materia")
+  private Set<Nota> notas;
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;
@@ -28,6 +28,6 @@ public class Materia extends Model {
   @Column(name = "description", nullable = false)
   private String description;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "professor_id", fetch = FetchType.LAZY)
   private Professor professor;
 }

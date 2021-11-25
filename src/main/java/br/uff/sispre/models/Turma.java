@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -15,9 +17,10 @@ import lombok.Setter;
 @Setter
 public class Turma extends Model {
   @ManyToMany
+  @JoinTable(name = "turma_materia", joinColumns = @JoinColumn(name = "turma_id"), inverseJoinColumns = @JoinColumn(name = "materia_id"))
   private List<Materia> materias;
 
-  @OneToMany
+  @OneToMany(mappedBy = "turma")
   private List<Aluno> alunos;
 
   @Column(name = "name", nullable = false, unique = true)
