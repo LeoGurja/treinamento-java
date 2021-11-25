@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Professor extends Pessoa {
-  @OneToOne(mappedBy = "materia_id", fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "professor", fetch = FetchType.LAZY)
   private Materia materia;
 }

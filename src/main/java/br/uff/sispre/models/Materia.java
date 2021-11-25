@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -28,6 +29,7 @@ public class Materia extends Model {
   @Column(name = "description", nullable = false)
   private String description;
 
-  @OneToOne(mappedBy = "professor_id", fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "professor_id")
   private Professor professor;
 }
