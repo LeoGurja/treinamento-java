@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.uff.sispre.models.Materia;
 import br.uff.sispre.models.Professor;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class ProfessorResource extends PessoaResource<Professor> {
   @JsonProperty
-  Long materiaId;
+  public Long materiaId;
 
   public ProfessorResource(Professor professor) {
     super(professor);

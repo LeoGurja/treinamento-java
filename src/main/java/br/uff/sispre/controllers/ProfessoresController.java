@@ -1,6 +1,6 @@
 package br.uff.sispre.controllers;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.uff.sispre.controllers.resources.ProfessorResource;
-import br.uff.sispre.models.Professor;
 import br.uff.sispre.services.ProfessorService;
 
 @RestController
@@ -24,15 +23,14 @@ public class ProfessoresController {
   private ProfessorService professorService;
 
   @PostMapping
-  public ProfessorResource create(@RequestBody Professor professor) {
-    professorService.create(professor);
-    return new ProfessorResource(professor);
+  public ProfessorResource create(@RequestBody ProfessorResource params) {
+    return new ProfessorResource(professorService.create(params));
   }
 
   @GetMapping
-  public Set<ProfessorResource> index() {
+  public List<ProfessorResource> index() {
     return professorService.all().stream().map(professor -> new ProfessorResource(professor))
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
@@ -41,9 +39,8 @@ public class ProfessoresController {
   }
 
   @PatchMapping(path = "/{id}")
-  public ProfessorResource update(@RequestBody Professor professor, @PathVariable Long id) {
-    professorService.update(id, professor);
-    return new ProfessorResource(professor);
+  public ProfessorResource update(@RequestBody ProfessorResource params, @PathVariable Long id) {
+    return new ProfessorResource(professorService.update(id, params));
   }
 
   @DeleteMapping(path = "/{id}")

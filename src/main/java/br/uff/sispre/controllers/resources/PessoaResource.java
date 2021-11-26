@@ -1,27 +1,33 @@
 package br.uff.sispre.controllers.resources;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.uff.sispre.models.Pessoa;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public abstract class PessoaResource<T extends Pessoa> extends ModelResource<Pessoa> {
   @JsonProperty
-  String cpf;
+  public String cpf;
 
   @JsonProperty
-  String rg;
+  public String rg;
 
   @JsonProperty
-  String name;
+  public String name;
 
   @JsonProperty
-  String address;
+  public String address;
 
   @JsonProperty
-  String phoneNumber;
+  public String phoneNumber;
 
   @JsonProperty
-  String email;
+  public String email;
+
+  @JsonIgnore
+  public String password;
 
   public PessoaResource(T pessoa) {
     super(pessoa);

@@ -1,16 +1,15 @@
 package br.uff.sispre.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.uff.sispre.controllers.resources.ProfessorResource;
 import br.uff.sispre.helpers.Sanitizer;
 import br.uff.sispre.helpers.Sha256;
-import br.uff.sispre.models.Materia;
 import br.uff.sispre.models.Professor;
 import br.uff.sispre.repositories.MateriaRepository;
 import br.uff.sispre.repositories.ProfessorRepository;
@@ -23,21 +22,23 @@ public class ProfessorService {
   @Autowired
   private MateriaRepository materiaRepo;
 
+  private Professor professor;
+
   public Professor find(Long id) {
     return repo.findById(id).get();
   }
 
-  public void create(Professor professor) {
-    sanitize(professor);
-    setMateria(professor);
-    repo.save(professor);
+  public Professor create(ProfessorResource params) {
+    professor = new Professor();
+    apply(params);
+    return repo.save(professor);
   }
 
-  public void update(Long id, Professor professor) {
-    sanitize(professor);
-    compare(professor, id);
-    setMateria(professor);
-    repo.save(professor);
+  public Professor update(Long id, ProfessorResource params) {
+    professor = repo.findById(id).get();
+    validateOnUpdate(params);
+    apply(params);
+    return repo.save(professor);
   }
 
   public void delete(Long id) {
@@ -48,22 +49,19 @@ public class ProfessorService {
     return (List<Professor>) repo.findAll();
   }
 
-  private void sanitize(Professor professor) {
-    professor.setCpf(Sanitizer.sanitizeCpf(professor.getCpf()));
-    professor.setRg(Sanitizer.sanitizeRg(professor.getRg()));
-    professor.setPhoneNumber(Sanitizer.sanitizePhoneNumber(professor.getPhoneNumber()));
-    professor.setPasswordDigest(Sha256.encryptPassword(professor.getPassword()));
+  private void apply(ProfessorResource params) {
+    professor.setCpf(Sanitizer.sanitizeCpf(params.cpf));
+    professor.setRg(Sanitizer.sanitizeRg(params.rg));
+    professor.setName(params.name);
+    professor.setAddress(params.address);
+    professor.setPhoneNumber(params.phoneNumber);
+    professor.setEmail(params.email);
+    professor.setPasswordDigest(Sha256.encryptPassword(params.password));
+    professor.setMateria(materiaRepo.findById(params.materiaId).orElse(null));
   }
 
-  private void compare(Professor professor, Long id) {
-    Professor oldProfessor = repo.findById(id).get();
-    if (!professor.getCpf().equals(oldProfessor.getCpf()))
+  private void validateOnUpdate(ProfessorResource params) {
+    if (!params.cpf.equals(professor.getCpf()))
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível alterar o cpf do professor!");
-  }
-
-  private void setMateria(Professor professor) {
-    Optional<Materia> materia = materiaRepo.findById(professor.getMateriaId());
-    if (materia.isPresent())
-      professor.setMateria(materia.get());
   }
 }

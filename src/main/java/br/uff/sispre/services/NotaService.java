@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.uff.sispre.controllers.resources.NotaResource;
 import br.uff.sispre.models.Nota;
 import br.uff.sispre.repositories.AlunoRepository;
 import br.uff.sispre.repositories.MateriaRepository;
@@ -21,20 +22,22 @@ public class NotaService {
   @Autowired
   private MateriaRepository materiaRepo;
 
+  private Nota nota;
+
   public Nota find(Long id) {
     return repo.findById(id).get();
   }
 
-  public void create(Nota nota) {
-    nota.setAluno(alunoRepo.findById(nota.getAlunoId()).get());
-    nota.setMateria(materiaRepo.findById(nota.getMateriaId()).get());
-    repo.save(nota);
+  public Nota create(NotaResource params) {
+    nota = new Nota();
+    apply(params);
+    return repo.save(nota);
   }
 
-  public void update(Long id, Nota nota) {
-    nota.setAluno(alunoRepo.findById(nota.getAlunoId()).get());
-    nota.setMateria(materiaRepo.findById(nota.getMateriaId()).get());
-    repo.save(nota);
+  public Nota update(Long id, NotaResource params) {
+    nota = repo.findById(id).get();
+    apply(params);
+    return repo.save(nota);
   }
 
   public void delete(Long id) {
@@ -43,5 +46,11 @@ public class NotaService {
 
   public List<Nota> all() {
     return (List<Nota>) repo.findAll();
+  }
+
+  private void apply(NotaResource params) {
+    nota.setValue(params.value);
+    nota.setAluno(alunoRepo.findById(params.alunoId).get());
+    nota.setMateria(materiaRepo.findById(params.materiaId).get());
   }
 }

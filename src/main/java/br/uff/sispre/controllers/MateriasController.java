@@ -1,6 +1,6 @@
 package br.uff.sispre.controllers;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.uff.sispre.controllers.resources.MateriaResource;
-import br.uff.sispre.models.Materia;
 import br.uff.sispre.services.MateriaService;
 
 @RestController
@@ -24,15 +23,13 @@ public class MateriasController {
   private MateriaService materiaService;
 
   @PostMapping
-  public MateriaResource create(@RequestBody Materia materia) {
-    System.out.println(materia.getName());
-    materiaService.create(materia);
-    return new MateriaResource(materia);
+  public MateriaResource create(@RequestBody MateriaResource params) {
+    return new MateriaResource(materiaService.create(params));
   }
 
   @GetMapping
-  public Set<MateriaResource> index() {
-    return materiaService.all().stream().map(materia -> new MateriaResource(materia)).collect(Collectors.toSet());
+  public List<MateriaResource> index() {
+    return materiaService.all().stream().map(x -> new MateriaResource(x)).collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
@@ -41,9 +38,8 @@ public class MateriasController {
   }
 
   @PatchMapping(path = "/{id}")
-  public MateriaResource update(@RequestBody Materia materia, @PathVariable Long id) {
-    materiaService.update(id, materia);
-    return new MateriaResource(materia);
+  public MateriaResource update(@RequestBody MateriaResource params, @PathVariable Long id) {
+    return new MateriaResource(materiaService.update(id, params));
   }
 
   @DeleteMapping(path = "/{id}")

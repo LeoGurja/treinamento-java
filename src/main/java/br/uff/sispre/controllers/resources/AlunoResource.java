@@ -1,6 +1,6 @@
 package br.uff.sispre.controllers.resources;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,18 +8,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import br.uff.sispre.models.Aluno;
 import br.uff.sispre.models.Nota;
 import br.uff.sispre.models.Turma;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class AlunoResource extends PessoaResource<Aluno> {
   @JsonProperty
-  Long turma_id;
+  public Long turmaId;
 
   @JsonProperty
-  Set<Long> nota_ids;
+  public List<Long> notaIds;
 
   public AlunoResource(Aluno aluno) {
     super(aluno);
     Turma turma = aluno.getTurma();
-    this.turma_id = turma != null ? turma.getId() : null;
-    this.nota_ids = aluno.getNotas().stream().map(Nota::getId).collect(Collectors.toSet());
+    this.turmaId = turma != null ? turma.getId() : null;
+    this.notaIds = aluno.getNotas().stream().map(Nota::getId).collect(Collectors.toList());
   }
 }

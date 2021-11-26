@@ -1,6 +1,6 @@
 package br.uff.sispre.controllers;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.uff.sispre.controllers.forms.AlunoForm;
 import br.uff.sispre.controllers.resources.AlunoResource;
-import br.uff.sispre.models.Aluno;
 import br.uff.sispre.services.AlunoService;
 
 @RestController
@@ -25,14 +23,13 @@ public class AlunosController {
   private AlunoService alunoService;
 
   @PostMapping
-  public AlunoResource create(@RequestBody AlunoForm aluno) {
-    alunoService.create(aluno);
-    return new AlunoResource(aluno);
+  public AlunoResource create(@RequestBody AlunoResource params) {
+    return new AlunoResource(alunoService.create(params));
   }
 
   @GetMapping
-  public Set<AlunoResource> index() {
-    return alunoService.all().stream().map(aluno -> new AlunoResource(aluno)).collect(Collectors.toSet());
+  public List<AlunoResource> index() {
+    return alunoService.all().stream().map(x -> new AlunoResource(x)).collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
@@ -41,9 +38,8 @@ public class AlunosController {
   }
 
   @PatchMapping(path = "/{id}")
-  public AlunoResource update(@RequestBody AlunoForm aluno, @PathVariable Long id) {
-    alunoService.update(id, aluno);
-    return new AlunoResource(aluno);
+  public AlunoResource update(@RequestBody AlunoResource aluno, @PathVariable Long id) {
+    return new AlunoResource(alunoService.update(id, aluno));
   }
 
   @DeleteMapping(path = "/{id}")

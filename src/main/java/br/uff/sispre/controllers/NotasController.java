@@ -1,6 +1,6 @@
 package br.uff.sispre.controllers;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.uff.sispre.controllers.resources.NotaResource;
-import br.uff.sispre.models.Nota;
 import br.uff.sispre.services.NotaService;
 
 @RestController
@@ -24,14 +23,13 @@ public class NotasController {
   private NotaService notaService;
 
   @PostMapping
-  public NotaResource create(@RequestBody Nota nota) {
-    notaService.create(nota);
-    return new NotaResource(nota);
+  public NotaResource create(@RequestBody NotaResource params) {
+    return new NotaResource(notaService.create(params));
   }
 
   @GetMapping
-  public Set<NotaResource> index() {
-    return notaService.all().stream().map(nota -> new NotaResource(nota)).collect(Collectors.toSet());
+  public List<NotaResource> index() {
+    return notaService.all().stream().map(nota -> new NotaResource(nota)).collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
@@ -40,9 +38,8 @@ public class NotasController {
   }
 
   @PatchMapping(path = "/{id}")
-  public NotaResource update(@RequestBody Nota nota, @PathVariable Long id) {
-    notaService.update(id, nota);
-    return new NotaResource(nota);
+  public NotaResource update(@RequestBody NotaResource params, @PathVariable Long id) {
+    return new NotaResource(notaService.create(params));
   }
 
   @DeleteMapping(path = "/{id}")

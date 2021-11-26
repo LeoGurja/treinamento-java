@@ -1,15 +1,16 @@
 package br.uff.sispre.services;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.uff.sispre.controllers.resources.MateriaResource;
 import br.uff.sispre.models.Materia;
-import br.uff.sispre.models.Professor;
 import br.uff.sispre.repositories.MateriaRepository;
 import br.uff.sispre.repositories.ProfessorRepository;
+import br.uff.sispre.repositories.TurmaRepository;
 
 @Service
 public class MateriaService {
@@ -19,18 +20,25 @@ public class MateriaService {
   @Autowired
   private ProfessorRepository professorRepo;
 
+  @Autowired
+  private TurmaRepository turmaRepo;
+
+  private Materia materia;
+
   public Materia find(Long id) {
     return repo.findById(id).get();
   }
 
-  public void create(Materia materia) {
-    setProfessor(materia);
-    repo.save(materia);
+  public Materia create(MateriaResource params) {
+    Materia materia = new Materia();
+    apply(params);
+    return repo.save(materia);
   }
 
-  public void update(Long id, Materia materia) {
-    setProfessor(materia);
-    repo.save(materia);
+  public Materia update(Long id, MateriaResource params) {
+    materia = repo.findById(id).get();
+    apply(params);
+    return repo.save(materia);
   }
 
   public void delete(Long id) {
@@ -41,9 +49,10 @@ public class MateriaService {
     return (List<Materia>) repo.findAll();
   }
 
-  private void setProfessor(Materia materia) {
-    Optional<Professor> professor = professorRepo.findById(materia.getProfessorId());
-    if (professor.isPresent())
-      materia.setProfessor(professor.get());
+  private void apply(MateriaResource params) {
+    materia.setName(params.name);
+    materia.setDescription(params.description);
+    materia.setProfessor(professorRepo.findById(params.professorId).orElse(null));
+    materia.setTurmas(params.turmaIds.stream().map(id -> turmaRepo.findById(id).get()).collect(Collectors.toList()));
   }
 }

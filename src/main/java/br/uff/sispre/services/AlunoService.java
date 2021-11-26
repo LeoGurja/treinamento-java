@@ -1,18 +1,16 @@
 package br.uff.sispre.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.uff.sispre.controllers.forms.AlunoForm;
+import br.uff.sispre.controllers.resources.AlunoResource;
 import br.uff.sispre.helpers.Sanitizer;
 import br.uff.sispre.helpers.Sha256;
 import br.uff.sispre.models.Aluno;
-import br.uff.sispre.models.Turma;
 import br.uff.sispre.repositories.AlunoRepository;
 import br.uff.sispre.repositories.TurmaRepository;
 
@@ -30,17 +28,17 @@ public class AlunoService {
     return repo.findById(id).get();
   }
 
-  public void create(AlunoForm alunoForm) {
+  public Aluno create(AlunoResource params) {
     aluno = new Aluno();
-    apply(alunoForm);
-    repo.save(aluno);
+    apply(params);
+    return repo.save(aluno);
   }
 
-  public void update(Long id, AlunoForm alunoForm) {
+  public Aluno update(Long id, AlunoResource params) {
     aluno = repo.findById(id).get();
-    validateOnUpdate(alunoForm);
-    apply(alunoForm);
-    repo.save(aluno);
+    validateOnUpdate(params);
+    apply(params);
+    return repo.save(aluno);
   }
 
   public void delete(Long id) {
@@ -51,25 +49,19 @@ public class AlunoService {
     return (List<Aluno>) repo.findAll();
   }
 
-  private void apply(AlunoForm alunoForm) {
-    aluno.setCpf(Sanitizer.sanitizeCpf(alunoForm.cpf));
-    aluno.setRg(Sanitizer.sanitizeRg(alunoForm.rg));
-    aluno.setName(alunoForm.name);
-    aluno.setPhoneNumber(Sanitizer.sanitizePhoneNumber(alunoForm.phoneNumber));
-    aluno.setPasswordDigest(Sha256.encryptPassword(alunoForm.password));
-    aluno.setAddress(alunoForm.address);
-    aluno.setEmail(alunoForm.email);
-    setTurma(alunoForm);
+  private void apply(AlunoResource params) {
+    aluno.setCpf(Sanitizer.sanitizeCpf(params.cpf));
+    aluno.setRg(Sanitizer.sanitizeRg(params.rg));
+    aluno.setName(params.name);
+    aluno.setAddress(params.address);
+    aluno.setPhoneNumber(params.phoneNumber);
+    aluno.setEmail(params.email);
+    aluno.setPasswordDigest(Sha256.encryptPassword(params.password));
+    aluno.setTurma(turmaRepo.findById(params.turmaId).orElse(null));
   }
 
-  private void validateOnUpdate(AlunoForm alunoForm) {
-    if (!aluno.getCpf().equals(alunoForm.cpf))
+  private void validateOnUpdate(AlunoResource params) {
+    if (!aluno.getCpf().equals(params.cpf))
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível alterar o cpf do aluno!");
-  }
-
-  private void setTurma(AlunoForm alunoForm) {
-    Optional<Turma> turma = turmaRepo.findById(aluno.getTurmaId());
-    if (turma.isPresent())
-      aluno.setTurma(turma.get());
   }
 }

@@ -3,16 +3,18 @@ package br.uff.sispre.controllers.resources;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.uff.sispre.models.Nota;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class NotaResource extends ModelResource<Nota> {
   @JsonProperty
-  Long alunoId;
+  public Long alunoId;
 
   @JsonProperty
-  Long materiaId;
+  public Long materiaId;
 
   @JsonProperty
-  Double value;
+  public Double value;
 
   public NotaResource(Nota nota) {
     super(nota);
