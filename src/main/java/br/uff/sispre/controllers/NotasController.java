@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.uff.sispre.controllers.resources.NotaResource;
 import br.uff.sispre.services.NotaService;
@@ -24,7 +25,11 @@ public class NotasController {
 
   @PostMapping
   public NotaResource create(@RequestBody NotaResource params) {
-    return new NotaResource(notaService.create(params));
+    try {
+      return new NotaResource(notaService.create(params));
+    } catch (Exception e) {
+      throw new ResponseStatusException(400, "Não foi possível criar a nota!", e);
+    }
   }
 
   @GetMapping
@@ -39,7 +44,11 @@ public class NotasController {
 
   @PatchMapping(path = "/{id}")
   public NotaResource update(@RequestBody NotaResource params, @PathVariable Long id) {
-    return new NotaResource(notaService.create(params));
+    try {
+      return new NotaResource(notaService.create(params));
+    } catch (Exception e) {
+      throw new ResponseStatusException(400, "Não foi possível atualizar a nota!", e);
+    }
   }
 
   @DeleteMapping(path = "/{id}")

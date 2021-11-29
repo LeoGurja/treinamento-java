@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.uff.sispre.controllers.resources.MateriaResource;
 import br.uff.sispre.services.MateriaService;
@@ -24,7 +25,11 @@ public class MateriasController {
 
   @PostMapping
   public MateriaResource create(@RequestBody MateriaResource params) {
-    return new MateriaResource(materiaService.create(params));
+    try {
+      return new MateriaResource(materiaService.create(params));
+    } catch (Exception e) {
+      throw new ResponseStatusException(400, "Não foi possível criar a matéria!", e);
+    }
   }
 
   @GetMapping
@@ -39,7 +44,11 @@ public class MateriasController {
 
   @PatchMapping(path = "/{id}")
   public MateriaResource update(@RequestBody MateriaResource params, @PathVariable Long id) {
-    return new MateriaResource(materiaService.update(id, params));
+    try {
+      return new MateriaResource(materiaService.update(id, params));
+    } catch (Exception e) {
+      throw new ResponseStatusException(400, "Não foi possível atualizar a matéria!", e);
+    }
   }
 
   @DeleteMapping(path = "/{id}")
