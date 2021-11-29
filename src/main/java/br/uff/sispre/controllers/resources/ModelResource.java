@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public abstract class ModelResource<T extends Model> {
-  // renomeado para impedir que um id seja enviado diretamente ao model
   @JsonProperty
-  public Long _id;
+  public Long id;
 
   public ModelResource(T model) {
-    this._id = model.getId();
+    this.id = model.getId();
   }
 }
