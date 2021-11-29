@@ -37,6 +37,6 @@ public abstract class PessoaResource<T extends Pessoa> extends ModelResource<Pes
     this.name = pessoa.getName();
     this.address = pessoa.getAddress();
     this.phoneNumber = pessoa.getPhoneNumber();
-    this.email = pessoa.getPhoneNumber();
+    this.email = pessoa.getEmail();
   }
 }
