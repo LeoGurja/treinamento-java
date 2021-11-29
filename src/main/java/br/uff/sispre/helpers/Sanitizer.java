@@ -1,15 +1,13 @@
 package br.uff.sispre.helpers;
 
 public abstract class Sanitizer {
-  public static String sanitizePhoneNumber(String phoneNumber) {
-    return phoneNumber.replaceAll("[\\(\\)-]", "");
-  }
+  public static String phoneNumber = "[()\\-\\s]";
+  public static String cpf = "[\\.\\-]";
+  public static String rg = "[\\.\\-]";
 
-  public static String sanitizeCpf(String cpf) {
-    return cpf.replaceAll("[\\.\\-\s]", "");
-  }
-
-  public static String sanitizeRg(String rg) {
-    return rg.replaceAll("[\\.\\-]", "");
+  public static String sanitize(String sanitizer, String value) {
+    if (value == null)
+      return null;
+    return value.replaceAll(sanitizer, "");
   }
 }

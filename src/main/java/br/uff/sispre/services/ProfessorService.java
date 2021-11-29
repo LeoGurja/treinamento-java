@@ -50,14 +50,15 @@ public class ProfessorService {
   }
 
   private void apply(ProfessorResource params) {
-    professor.setCpf(Sanitizer.sanitizeCpf(params.cpf));
-    professor.setRg(Sanitizer.sanitizeRg(params.rg));
+    professor.setCpf(Sanitizer.sanitize(Sanitizer.cpf, params.cpf));
+    professor.setRg(Sanitizer.sanitize(Sanitizer.rg, params.rg));
     professor.setName(params.name);
     professor.setAddress(params.address);
-    professor.setPhoneNumber(params.phoneNumber);
+    professor.setPhoneNumber(Sanitizer.sanitize(Sanitizer.phoneNumber, params.phoneNumber));
     professor.setEmail(params.email);
     professor.setPasswordDigest(Sha256.encryptPassword(params.password));
-    professor.setMateria(materiaRepo.findById(params.materiaId).orElse(null));
+    if (params.materiaId != null)
+      professor.setMateria(materiaRepo.findById(params.materiaId).orElse(null));
   }
 
   private void validateOnUpdate(ProfessorResource params) {

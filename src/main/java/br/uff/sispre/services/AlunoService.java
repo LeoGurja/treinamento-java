@@ -49,15 +49,16 @@ public class AlunoService {
     return (List<Aluno>) repo.findAll();
   }
 
-  private void apply(AlunoResource params) {
-    aluno.setCpf(Sanitizer.sanitizeCpf(params.cpf));
-    aluno.setRg(Sanitizer.sanitizeRg(params.rg));
+  void apply(AlunoResource params) {
+    aluno.setCpf(Sanitizer.sanitize(Sanitizer.cpf, params.cpf));
+    aluno.setRg(Sanitizer.sanitize(Sanitizer.rg, params.rg));
     aluno.setName(params.name);
     aluno.setAddress(params.address);
-    aluno.setPhoneNumber(params.phoneNumber);
+    aluno.setPhoneNumber(Sanitizer.sanitize(Sanitizer.phoneNumber, params.phoneNumber));
     aluno.setEmail(params.email);
     aluno.setPasswordDigest(Sha256.encryptPassword(params.password));
-    aluno.setTurma(turmaRepo.findById(params.turmaId).orElse(null));
+    if (params.turmaId != null)
+      aluno.setTurma(turmaRepo.findById(params.turmaId).orElse(null));
   }
 
   private void validateOnUpdate(AlunoResource params) {
