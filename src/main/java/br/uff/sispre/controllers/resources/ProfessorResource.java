@@ -13,7 +13,6 @@ public class ProfessorResource extends PessoaResource<Professor> {
 
   public ProfessorResource(Professor professor) {
     super(professor);
-    Materia materia = professor.getMateria();
-    this.materiaId = materia != null ? materia.getId() : null;
+    this.materiaId = professor.getMateria().map(Materia::getId).orElse(null);
   }
 }

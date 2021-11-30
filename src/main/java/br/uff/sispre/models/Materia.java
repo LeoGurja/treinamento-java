@@ -2,6 +2,7 @@ package br.uff.sispre.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,5 +41,13 @@ public class Materia extends Model {
 
   public List<Turma> getTurmas() {
     return this.turmas != null ? this.turmas : new ArrayList<>();
+  }
+
+  public Optional<Professor> getProfessor() {
+    return Optional.ofNullable(this.professor);
+  }
+
+  public void setProfessor(Optional<Professor> professor) {
+    this.professor = professor.orElse(null);
   }
 }

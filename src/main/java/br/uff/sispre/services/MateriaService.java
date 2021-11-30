@@ -30,7 +30,7 @@ public class MateriaService {
   }
 
   public Materia create(MateriaResource params) {
-    Materia materia = new Materia();
+    materia = new Materia();
     apply(params);
     return repo.save(materia);
   }
@@ -55,6 +55,6 @@ public class MateriaService {
     if (params.turmaIds != null)
       materia.setTurmas(params.turmaIds.stream().map(id -> turmaRepo.findById(id).get()).collect(Collectors.toList()));
     if (params.professorId != null)
-      materia.setProfessor(professorRepo.findById(params.professorId).orElse(null));
+      materia.setProfessor(professorRepo.findById(params.professorId));
   }
 }

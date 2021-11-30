@@ -20,8 +20,7 @@ public class AlunoResource extends PessoaResource<Aluno> {
 
   public AlunoResource(Aluno aluno) {
     super(aluno);
-    Turma turma = aluno.getTurma();
-    this.turmaId = turma != null ? turma.getId() : null;
+    this.turmaId = aluno.getTurma().map(Turma::getId).orElse(null);
     this.notaIds = aluno.getNotas().stream().map(Nota::getId).collect(Collectors.toList());
   }
 }

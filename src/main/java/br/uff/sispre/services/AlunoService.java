@@ -58,7 +58,7 @@ public class AlunoService {
     aluno.setEmail(params.email);
     aluno.setPasswordDigest(Sha256.encryptPassword(params.password));
     if (params.turmaId != null)
-      aluno.setTurma(turmaRepo.findById(params.turmaId).orElse(null));
+      aluno.setTurma(turmaRepo.findById(params.turmaId));
   }
 
   private void validateOnUpdate(AlunoResource params) {

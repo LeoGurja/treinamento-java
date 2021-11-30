@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.uff.sispre.models.Materia;
 import br.uff.sispre.models.Nota;
+import br.uff.sispre.models.Professor;
 import br.uff.sispre.models.Turma;
 import lombok.NoArgsConstructor;
 
@@ -33,7 +34,7 @@ public class MateriaResource extends ModelResource<Materia> {
     this.name = materia.getName();
     this.description = materia.getDescription();
 
-    this.professorId = materia.getProfessor().getId();
+    this.professorId = materia.getProfessor().map(Professor::getId).orElse(null);
     this.turmaIds = materia.getTurmas().stream().map(Turma::getId).collect(Collectors.toList());
     this.notaIds = materia.getNotas().stream().map(Nota::getId).collect(Collectors.toList());
   }

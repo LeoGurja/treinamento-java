@@ -2,6 +2,7 @@ package br.uff.sispre.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,5 +26,13 @@ public class Aluno extends Pessoa {
 
   public List<Nota> getNotas() {
     return this.notas != null ? this.notas : new ArrayList<>();
+  }
+
+  public Optional<Turma> getTurma() {
+    return Optional.ofNullable(this.turma);
+  }
+
+  public void setTurma(Optional<Turma> turma) {
+    this.turma = turma.orElse(null);
   }
 }

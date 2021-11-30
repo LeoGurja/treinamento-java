@@ -58,7 +58,7 @@ public class ProfessorService {
     professor.setEmail(params.email);
     professor.setPasswordDigest(Sha256.encryptPassword(params.password));
     if (params.materiaId != null)
-      professor.setMateria(materiaRepo.findById(params.materiaId).orElse(null));
+      professor.setMateria(materiaRepo.findById(params.materiaId));
   }
 
   private void validateOnUpdate(ProfessorResource params) {
