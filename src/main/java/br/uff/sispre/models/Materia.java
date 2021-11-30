@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +26,8 @@ public class Materia extends Model {
   @ManyToMany(mappedBy = "materias")
   private List<Turma> turmas;
 
-  @OneToMany(mappedBy = "materia")
+  @OneToMany(mappedBy = "materia", cascade = CascadeType.ALL)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Nota> notas;
 
   @Column(name = "name", nullable = false, unique = true)
