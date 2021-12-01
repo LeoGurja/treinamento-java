@@ -8,10 +8,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import br.uff.sispre.controllers.resources.TurmaResource;
 import br.uff.sispre.factories.TurmaFactory;
@@ -30,6 +32,19 @@ public class TurmasControllerTest {
 
   @Autowired
   private TurmaRepository repo;
+
+  @Test
+  void listaTurma() throws Exception {
+    Turma turma1 = repo.save(TurmaFactory.build());
+    Turma turma2 = repo.save(TurmaFactory.build());
+
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/turmas").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(turma1.getName()));
+    assertTrue(content.contains(turma2.getName()));
+  }
 
   @Test
   void criaTurmaValida() throws Exception {

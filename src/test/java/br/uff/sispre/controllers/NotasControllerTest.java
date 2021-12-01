@@ -1,6 +1,7 @@
 package br.uff.sispre.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,16 +11,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.uff.sispre.controllers.resources.NotaResource;
-import br.uff.sispre.factories.AlunoFactory;
-import br.uff.sispre.factories.MateriaFactory;
-import br.uff.sispre.models.Aluno;
-import br.uff.sispre.models.Materia;
+import br.uff.sispre.factories.NotaFactory;
 import br.uff.sispre.models.Nota;
-import br.uff.sispre.repositories.AlunoRepository;
-import br.uff.sispre.repositories.MateriaRepository;
 import br.uff.sispre.repositories.NotaRepository;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,21 +34,22 @@ public class NotasControllerTest {
   @Autowired
   private NotaRepository repo;
 
-  @Autowired
-  private AlunoRepository alunoRepo;
+  @Test
+  void listaNotas() throws Exception {
+    Nota nota1 = repo.save(NotaFactory.build());
+    Nota nota2 = repo.save(NotaFactory.build());
 
-  @Autowired
-  private MateriaRepository materiaRepo;
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/notas").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(nota1.getValue().toString()));
+    assertTrue(content.contains(nota2.getValue().toString()));
+  }
 
   @Test
   void criaNotaValida() throws Exception {
-    NotaResource nota = new NotaResource();
-    Aluno aluno = alunoRepo.save(AlunoFactory.build());
-    Materia materia = materiaRepo.save(MateriaFactory.build());
-
-    nota.value = 10.0;
-    nota.alunoId = aluno.getId();
-    nota.materiaId = materia.getId();
+    NotaResource nota = new NotaResource(repo.save(NotaFactory.build()));
 
     mvc.perform(MockMvcRequestBuilders.post("/notas").contentType("application/json")
         .content(objectMapper.writeValueAsString(nota))).andExpect(status().isOk());

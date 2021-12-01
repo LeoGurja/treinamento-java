@@ -6,10 +6,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,6 +33,19 @@ public class AlunosControllerTest {
 
   @Autowired
   private AlunoRepository repo;
+
+  @Test
+  void listaAlunos() throws Exception {
+    Aluno aluno1 = repo.save(AlunoFactory.build());
+    Aluno aluno2 = repo.save(AlunoFactory.build());
+
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/alunos").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(aluno1.getName()));
+    assertTrue(content.contains(aluno2.getName()));
+  }
 
   @Test
   void criaAlunoValido() throws Exception {

@@ -1,6 +1,7 @@
 package br.uff.sispre.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.uff.sispre.controllers.resources.MateriaResource;
@@ -31,6 +33,19 @@ public class MateriasControllerTest {
 
   @Autowired
   private MateriaRepository repo;
+
+  @Test
+  void listaMaterias() throws Exception {
+    Materia materia1 = repo.save(MateriaFactory.build());
+    Materia materia2 = repo.save(MateriaFactory.build());
+
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/materias").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(materia1.getName()));
+    assertTrue(content.contains(materia2.getName()));
+  }
 
   @Test
   void criaMateriaValida() throws Exception {
