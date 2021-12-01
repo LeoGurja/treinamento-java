@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.uff.sispre.controllers.resources.MateriaResource;
+import br.uff.sispre.factories.MateriaFactory;
 import br.uff.sispre.models.Materia;
 import br.uff.sispre.repositories.MateriaRepository;
 
@@ -33,10 +34,7 @@ public class MateriasControllerTest {
 
   @Test
   void criaMateriaValida() throws Exception {
-    MateriaResource materia = new MateriaResource();
-
-    materia.name = "Matemática";
-    materia.description = "Calcular várias coisas diferentes";
+    MateriaResource materia = new MateriaResource(MateriaFactory.build());
 
     mvc.perform(MockMvcRequestBuilders.post("/materias").contentType("application/json")
         .content(objectMapper.writeValueAsString(materia))).andExpect(status().isOk());

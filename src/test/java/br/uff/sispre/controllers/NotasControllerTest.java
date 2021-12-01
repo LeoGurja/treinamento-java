@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import br.uff.sispre.controllers.resources.NotaResource;
+import br.uff.sispre.factories.AlunoFactory;
+import br.uff.sispre.factories.MateriaFactory;
 import br.uff.sispre.models.Aluno;
 import br.uff.sispre.models.Materia;
 import br.uff.sispre.models.Nota;
@@ -44,8 +46,8 @@ public class NotasControllerTest {
   @Test
   void criaNotaValida() throws Exception {
     NotaResource nota = new NotaResource();
-    Aluno aluno = criaAluno();
-    Materia materia = criaMateria();
+    Aluno aluno = alunoRepo.save(AlunoFactory.build());
+    Materia materia = materiaRepo.save(MateriaFactory.build());
 
     nota.value = 10.0;
     nota.alunoId = aluno.getId();
@@ -69,21 +71,5 @@ public class NotasControllerTest {
     assertEquals(nota.getAluno().getId(), notaResource.alunoId);
     assertEquals(nota.getMateria().getId(), notaResource.materiaId);
     assertEquals(nota.getValue(), notaResource.value);
-  }
-
-  private Aluno criaAluno() {
-    Aluno aluno = new Aluno();
-    aluno.setCpf("11111111111");
-    aluno.setRg("111111111");
-    aluno.setName("Carlinhos");
-    aluno.setAddress("Algum lugar");
-    return alunoRepo.save(aluno);
-  }
-
-  private Materia criaMateria() {
-    Materia materia = new Materia();
-    materia.setName("Culinária I");
-    materia.setDescription("Aprender a utilizar o microondas");
-    return materiaRepo.save(materia);
   }
 }

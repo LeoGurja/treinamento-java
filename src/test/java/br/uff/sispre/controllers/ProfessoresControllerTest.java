@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.uff.sispre.controllers.resources.ProfessorResource;
-import br.uff.sispre.helpers.Sanitizer;
+import br.uff.sispre.factories.ProfessorFactory;
 import br.uff.sispre.helpers.Sha256;
 import br.uff.sispre.models.Professor;
 import br.uff.sispre.repositories.ProfessorRepository;
@@ -34,19 +34,15 @@ public class ProfessoresControllerTest {
 
   @Test
   void criaProfessorValido() throws Exception {
-    ProfessorResource professor = new ProfessorResource();
-    professor.cpf = "111.111.111-11";
-    professor.rg = "11.111.111-1";
-    professor.name = "Carlinhos de Jesus";
-    professor.address = "Rua dos Ladrões, 0";
+    ProfessorResource professor = new ProfessorResource(ProfessorFactory.build());
     professor.password = "Senha_segura";
     professor.email = "carlinhos@email.com";
-    professor.phoneNumber = "(11)11111-1111";
+    professor.phoneNumber = "11111111111";
 
     mvc.perform(MockMvcRequestBuilders.post("/professores").contentType("application/json")
         .content(objectMapper.writeValueAsString(professor))).andExpect(status().isOk());
 
-    compare(repo.findByCpf("11111111111"), professor);
+    compare(repo.findByCpf(professor.cpf), professor);
   }
 
   @Test
@@ -58,9 +54,9 @@ public class ProfessoresControllerTest {
 
   private void compare(Professor professor, ProfessorResource professorResource) {
     assertEquals(professor.getAddress(), professorResource.address);
-    assertEquals(professor.getCpf(), Sanitizer.sanitize(Sanitizer.cpf, professorResource.cpf));
-    assertEquals(professor.getRg(), Sanitizer.sanitize(Sanitizer.rg, professorResource.rg));
-    assertEquals(professor.getPhoneNumber(), Sanitizer.sanitize(Sanitizer.phoneNumber, professorResource.phoneNumber));
+    assertEquals(professor.getCpf(), professorResource.cpf);
+    assertEquals(professor.getRg(), professorResource.rg);
+    assertEquals(professor.getPhoneNumber(), professorResource.phoneNumber);
     assertEquals(professor.getEmail(), professorResource.email);
     assertEquals(professor.getName(), professorResource.name);
     assertEquals(professor.getPasswordDigest(), Sha256.encryptPassword(professorResource.password));
