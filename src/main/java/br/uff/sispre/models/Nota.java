@@ -1,5 +1,6 @@
 package br.uff.sispre.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,11 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Nota extends Model {
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = { CascadeType.PERSIST })
   @JoinColumn(name = "aluno_id")
   private Aluno aluno;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = { CascadeType.PERSIST })
   @JoinColumn(name = "materia_id")
   private Materia materia;
 
