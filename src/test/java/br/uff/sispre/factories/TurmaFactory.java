@@ -7,7 +7,7 @@ public abstract class TurmaFactory {
 
   public static Turma build() {
     Turma turma = new Turma();
-    turma.setName(String.format("turma %d", nameCounter++));
+    turma.setName(String.format("Turma %d", nameCounter++));
     return turma;
   }
 }

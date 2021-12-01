@@ -7,8 +7,8 @@ public abstract class MateriaFactory {
 
   public static Materia build() {
     Materia materia = new Materia();
-    materia.setName(String.format("matéria %d", nameCounter++));
-    materia.setDescription("descrição");
+    materia.setName(String.format("calculo %d", nameCounter++));
+    materia.setDescription("Realizar muitos calculos sem motivo aparente...");
     return materia;
   }
 }
