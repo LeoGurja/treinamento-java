@@ -48,6 +48,21 @@ public class AlunosControllerTest {
   }
 
   @Test
+  void mostraAluno() throws Exception {
+    Aluno aluno = repo.save(AlunoFactory.build());
+
+    MvcResult result = mvc
+        .perform(MockMvcRequestBuilders.get(String.format("/alunos/%d", aluno.getId())).contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(aluno.getName()));
+    assertTrue(content.contains(aluno.getCpf()));
+    assertTrue(content.contains(aluno.getAddress()));
+    assertTrue(content.contains(aluno.getRg()));
+  }
+
+  @Test
   void criaAlunoValido() throws Exception {
     AlunoResource aluno = new AlunoResource(AlunoFactory.build());
     aluno.password = "Senha_segura";

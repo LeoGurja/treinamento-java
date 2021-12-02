@@ -48,6 +48,20 @@ public class NotasControllerTest {
   }
 
   @Test
+  void mostraNota() throws Exception {
+    Nota nota = repo.save(NotaFactory.build());
+
+    MvcResult result = mvc
+        .perform(MockMvcRequestBuilders.get(String.format("/notas/%d", nota.getId())).contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(nota.getValue().toString()));
+    assertTrue(content.contains(nota.getMateria().getId().toString()));
+    assertTrue(content.contains(nota.getAluno().getId().toString()));
+  }
+
+  @Test
   void criaNotaValida() throws Exception {
     NotaResource nota = new NotaResource(repo.save(NotaFactory.build()));
 

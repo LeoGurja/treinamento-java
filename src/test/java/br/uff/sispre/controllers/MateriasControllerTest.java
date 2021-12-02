@@ -48,6 +48,20 @@ public class MateriasControllerTest {
   }
 
   @Test
+  void mostraMateria() throws Exception {
+    Materia materia = repo.save(MateriaFactory.build());
+
+    MvcResult result = mvc
+        .perform(
+            MockMvcRequestBuilders.get(String.format("/materias/%d", materia.getId())).contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(materia.getName()));
+    assertTrue(content.contains(materia.getDescription()));
+  }
+
+  @Test
   void criaMateriaValida() throws Exception {
     MateriaResource materia = new MateriaResource(MateriaFactory.build());
 

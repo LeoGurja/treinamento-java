@@ -47,6 +47,18 @@ public class TurmasControllerTest {
   }
 
   @Test
+  void mostraTurma() throws Exception {
+    Turma turma = repo.save(TurmaFactory.build());
+
+    MvcResult result = mvc
+        .perform(MockMvcRequestBuilders.get(String.format("/turmas/%d", turma.getId())).contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(turma.getName()));
+  }
+
+  @Test
   void criaTurmaValida() throws Exception {
     TurmaResource turma = new TurmaResource(TurmaFactory.build());
 

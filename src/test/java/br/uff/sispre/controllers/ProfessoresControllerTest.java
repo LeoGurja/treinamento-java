@@ -48,6 +48,22 @@ public class ProfessoresControllerTest {
   }
 
   @Test
+  void mostraProfessor() throws Exception {
+    Professor professor = repo.save(ProfessorFactory.build());
+
+    MvcResult result = mvc
+        .perform(MockMvcRequestBuilders.get(String.format("/professores/%d", professor.getId()))
+            .contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
+
+    assertTrue(content.contains(professor.getName()));
+    assertTrue(content.contains(professor.getCpf()));
+    assertTrue(content.contains(professor.getAddress()));
+    assertTrue(content.contains(professor.getRg()));
+  }
+
+  @Test
   void criaProfessorValido() throws Exception {
     ProfessorResource professor = new ProfessorResource(ProfessorFactory.build());
     professor.password = "Senha_segura";
