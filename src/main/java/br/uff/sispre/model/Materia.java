@@ -1,6 +1,7 @@
 package br.uff.sispre.model;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.CascadeType;
@@ -30,11 +31,11 @@ public class Materia {
   private Long id;
 
   @ManyToMany(mappedBy = "materias")
-  private Set<Turma> turmas;
+  private List<Turma> turmas = new ArrayList<>();
 
   @OneToMany(mappedBy = "materia", cascade = CascadeType.ALL)
   @OnDelete(action = OnDeleteAction.CASCADE)
-  private Set<Nota> notas;
+  private List<Nota> notas = new ArrayList<>();
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;

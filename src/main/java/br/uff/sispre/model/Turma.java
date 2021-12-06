@@ -1,6 +1,7 @@
 package br.uff.sispre.model;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,10 +26,10 @@ public class Turma {
 
   @ManyToMany
   @JoinTable(name = "turma_materia", joinColumns = @JoinColumn(name = "turma_id"), inverseJoinColumns = @JoinColumn(name = "materia_id"))
-  private Set<Materia> materias;
+  private List<Materia> materias = new ArrayList<>();
 
   @OneToMany(mappedBy = "turma")
-  private Set<Aluno> alunos;
+  private List<Aluno> alunos = new ArrayList<>();
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;

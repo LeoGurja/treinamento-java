@@ -53,7 +53,7 @@ public class MateriaService {
     materia.setName(params.name);
     materia.setDescription(params.description);
     if (params.turmaIds != null)
-      materia.setTurmas(params.turmaIds.stream().map(id -> turmaRepo.findById(id).get()).collect(Collectors.toSet()));
+      materia.setTurmas(params.turmaIds.stream().map(id -> turmaRepo.findById(id).get()).collect(Collectors.toList()));
     if (params.professorId != null)
       materia.setProfessor(professorRepo.findById(params.professorId));
   }

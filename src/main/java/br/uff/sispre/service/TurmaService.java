@@ -52,9 +52,9 @@ public class TurmaService {
   private void apply(TurmaDto params) {
     turma.setName(params.name);
     if (params.alunoIds != null)
-      turma.setAlunos(params.alunoIds.stream().map(x -> alunoRepo.findById(x).get()).collect(Collectors.toSet()));
+      turma.setAlunos(params.alunoIds.stream().map(x -> alunoRepo.findById(x).get()).collect(Collectors.toList()));
     if (params.materiaIds != null)
       turma
-          .setMaterias(params.materiaIds.stream().map(x -> materiaRepo.findById(x).get()).collect(Collectors.toSet()));
+          .setMaterias(params.materiaIds.stream().map(x -> materiaRepo.findById(x).get()).collect(Collectors.toList()));
   }
 }

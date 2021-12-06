@@ -1,7 +1,8 @@
 package br.uff.sispre.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class Aluno extends Pessoa {
 
   @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
   @OnDelete(action = OnDeleteAction.CASCADE)
-  private Set<Nota> notas;
+  private List<Nota> notas = new ArrayList<>();
 
   public Optional<Turma> getTurma() {
     return Optional.ofNullable(this.turma);

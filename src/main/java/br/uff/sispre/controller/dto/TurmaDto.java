@@ -1,6 +1,6 @@
 package br.uff.sispre.controller.dto;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,17 +16,17 @@ public class TurmaDto {
   public Long id;
 
   @JsonProperty
-  public Set<Long> materiaIds;
+  public List<Long> materiaIds;
 
   @JsonProperty
-  public Set<Long> alunoIds;
+  public List<Long> alunoIds;
 
   @JsonProperty
   public String name;
 
   public TurmaDto(Turma turma) {
     this.name = turma.getName();
-    this.materiaIds = turma.getMaterias().stream().map(Materia::getId).collect(Collectors.toSet());
-    this.alunoIds = turma.getAlunos().stream().map(Aluno::getId).collect(Collectors.toSet());
+    this.materiaIds = turma.getMaterias().stream().map(Materia::getId).collect(Collectors.toList());
+    this.alunoIds = turma.getAlunos().stream().map(Aluno::getId).collect(Collectors.toList());
   }
 }
