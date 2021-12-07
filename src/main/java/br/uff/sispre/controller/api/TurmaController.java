@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ import br.uff.sispre.controller.dto.TurmaDto;
 import br.uff.sispre.service.TurmaService;
 
 @RestController
-@RequestMapping(path = "/turmas")
+@RequestMapping(path = "/api/turmas")
 public class TurmaController {
   @Autowired
   private TurmaService turmaService;

@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ import br.uff.sispre.controller.dto.NotaDto;
 import br.uff.sispre.service.NotaService;
 
 @RestController
-@RequestMapping(path = "/notas")
+@RequestMapping(path = "/api/notas")
 public class NotaController {
   @Autowired
   private NotaService notaService;

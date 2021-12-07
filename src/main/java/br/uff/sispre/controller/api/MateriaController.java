@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,46 +14,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.uff.sispre.controller.dto.AlunoDto;
-import br.uff.sispre.service.AlunoService;
+import br.uff.sispre.controller.dto.MateriaDto;
+import br.uff.sispre.service.MateriaService;
 
 @RestController
-@RequestMapping(path = "/alunos")
-public class AlunoController {
+@RequestMapping(path = "/api/materias")
+public class MateriaController {
   @Autowired
-  private AlunoService alunoService;
+  private MateriaService materiaService;
 
   @PostMapping
-  public AlunoDto create(@RequestBody AlunoDto params) {
+  public MateriaDto create(@RequestBody MateriaDto params) {
     try {
-      return new AlunoDto(alunoService.create(params));
+      return new MateriaDto(materiaService.create(params));
     } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível criar o aluno!", e);
+      throw new ResponseStatusException(400, "Não foi possível criar a matéria!", e);
     }
   }
 
   @GetMapping
-  public List<AlunoDto> index() {
-    return alunoService.all().stream().map(x -> new AlunoDto(x)).collect(Collectors.toList());
+  public List<MateriaDto> index() {
+    return materiaService.all().stream().map(x -> new MateriaDto(x)).collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
-  public AlunoDto show(@PathVariable Long id) {
-    return new AlunoDto(alunoService.find(id));
+  public MateriaDto show(@PathVariable Long id) {
+    return new MateriaDto(materiaService.find(id));
   }
 
   @PatchMapping(path = "/{id}")
-  public AlunoDto update(@RequestBody AlunoDto aluno, @PathVariable Long id) {
+  public MateriaDto update(@RequestBody MateriaDto params, @PathVariable Long id) {
     try {
-      return new AlunoDto(alunoService.update(id, aluno));
+      return new MateriaDto(materiaService.update(id, params));
     } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível atualizar o aluno!", e);
+      throw new ResponseStatusException(400, "Não foi possível atualizar a matéria!", e);
     }
   }
 
   @DeleteMapping(path = "/{id}")
   public String delete(@PathVariable Long id) {
-    alunoService.delete(id);
+    materiaService.delete(id);
     return "Deleted";
   }
 }

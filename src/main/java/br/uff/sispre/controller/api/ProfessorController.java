@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ import br.uff.sispre.controller.dto.ProfessorDto;
 import br.uff.sispre.service.ProfessorService;
 
 @RestController
-@RequestMapping(path = "/professores")
+@RequestMapping(path = "/api/professores")
 public class ProfessorController {
   @Autowired
   private ProfessorService professorService;
