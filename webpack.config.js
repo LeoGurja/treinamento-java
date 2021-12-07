@@ -1,7 +1,6 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path')
-const glob = require('glob')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -9,8 +8,12 @@ const isProduction = process.env.NODE_ENV === 'production'
 const stylesHandler = MiniCssExtractPlugin.loader
 
 const config = {
-  entry: glob.sync('./src/main/resources/packs/*.js'),
+  entry: {
+    application: './src/main/resources/packs/application.js',
+    alunos: './src/main/resources/packs/alunos.js'
+  },
   output: {
+    filename: '[name].js',
     path: path.resolve(__dirname, 'src/main/resources/static')
   },
   devServer: {
