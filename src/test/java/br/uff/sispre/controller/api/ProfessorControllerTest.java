@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class ProfessorControllerTest {
     Professor professor1 = repo.save(ProfessorFactory.build());
     Professor professor2 = repo.save(ProfessorFactory.build());
 
-    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/professores").contentType("application/json"))
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/professores").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -52,7 +52,7 @@ public class ProfessorControllerTest {
     Professor professor = repo.save(ProfessorFactory.build());
 
     MvcResult result = mvc
-        .perform(MockMvcRequestBuilders.get(String.format("/professores/%d", professor.getId()))
+        .perform(MockMvcRequestBuilders.get(String.format("/api/professores/%d", professor.getId()))
             .contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
@@ -70,7 +70,7 @@ public class ProfessorControllerTest {
     professor.email = "carlinhos@email.com";
     professor.phoneNumber = "11111111111";
 
-    mvc.perform(MockMvcRequestBuilders.post("/professores").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/professores").contentType("application/json")
         .content(objectMapper.writeValueAsString(professor))).andExpect(status().isOk());
 
     compare(repo.findByCpf(professor.cpf), professor);
@@ -79,7 +79,7 @@ public class ProfessorControllerTest {
   @Test
   void naoCriaProfessorInvalido() throws Exception {
     ProfessorDto professor = new ProfessorDto();
-    mvc.perform(MockMvcRequestBuilders.post("/professores").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/professores").contentType("application/json")
         .content(objectMapper.writeValueAsString(professor))).andExpect(status().isBadRequest());
   }
 

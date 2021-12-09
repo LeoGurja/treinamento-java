@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,7 +38,7 @@ public class TurmaControllerTest {
     Turma turma1 = repo.save(TurmaFactory.build());
     Turma turma2 = repo.save(TurmaFactory.build());
 
-    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/turmas").contentType("application/json"))
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/turmas").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -51,7 +51,8 @@ public class TurmaControllerTest {
     Turma turma = repo.save(TurmaFactory.build());
 
     MvcResult result = mvc
-        .perform(MockMvcRequestBuilders.get(String.format("/turmas/%d", turma.getId())).contentType("application/json"))
+        .perform(
+            MockMvcRequestBuilders.get(String.format("/api/turmas/%d", turma.getId())).contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -62,7 +63,7 @@ public class TurmaControllerTest {
   void criaTurmaValida() throws Exception {
     TurmaDto turma = new TurmaDto(TurmaFactory.build());
 
-    mvc.perform(MockMvcRequestBuilders.post("/turmas").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/turmas").contentType("application/json")
         .content(objectMapper.writeValueAsString(turma))).andExpect(status().isOk());
 
     compare(repo.findByName(turma.name), turma);
@@ -72,7 +73,7 @@ public class TurmaControllerTest {
   void naoCriaTurmaInvalida() throws Exception {
     TurmaDto turma = new TurmaDto();
 
-    mvc.perform(MockMvcRequestBuilders.post("/turmas").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/turmas").contentType("application/json")
         .content(objectMapper.writeValueAsString(turma))).andExpect(status().isBadRequest());
   }
 

@@ -1,6 +1,5 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +38,7 @@ public class NotaControllerTest {
     Nota nota1 = repo.save(NotaFactory.build());
     Nota nota2 = repo.save(NotaFactory.build());
 
-    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/notas").contentType("application/json"))
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/notas").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -52,7 +51,8 @@ public class NotaControllerTest {
     Nota nota = repo.save(NotaFactory.build());
 
     MvcResult result = mvc
-        .perform(MockMvcRequestBuilders.get(String.format("/notas/%d", nota.getId())).contentType("application/json"))
+        .perform(
+            MockMvcRequestBuilders.get(String.format("/api/notas/%d", nota.getId())).contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -65,23 +65,20 @@ public class NotaControllerTest {
   void criaNotaValida() throws Exception {
     NotaDto nota = new NotaDto(repo.save(NotaFactory.build()));
 
-    mvc.perform(MockMvcRequestBuilders.post("/notas").contentType("application/json")
-        .content(objectMapper.writeValueAsString(nota))).andExpect(status().isOk());
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/api/notas").contentType("application/json")
+        .content(objectMapper.writeValueAsString(nota))).andExpect(status().isOk()).andReturn();
+    String content = result.getResponse().getContentAsString();
 
-    compare(repo.findAll().iterator().next(), nota);
+    assertTrue(content.contains(nota.alunoId.toString()));
+    assertTrue(content.contains(nota.materiaId.toString()));
+    assertTrue(content.contains(nota.value.toString()));
   }
 
   @Test
   void naoCriaNotaInvalida() throws Exception {
     NotaDto nota = new NotaDto();
 
-    mvc.perform(MockMvcRequestBuilders.post("/notas").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/notas").contentType("application/json")
         .content(objectMapper.writeValueAsString(nota))).andExpect(status().isBadRequest());
-  }
-
-  private void compare(Nota nota, NotaDto notaResource) {
-    assertEquals(nota.getAluno().getId(), notaResource.alunoId);
-    assertEquals(nota.getMateria().getId(), notaResource.materiaId);
-    assertEquals(nota.getValue(), notaResource.value);
   }
 }

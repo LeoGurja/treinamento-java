@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,7 +39,7 @@ public class MateriaControllerTest {
     Materia materia1 = repo.save(MateriaFactory.build());
     Materia materia2 = repo.save(MateriaFactory.build());
 
-    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/materias").contentType("application/json"))
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/materias").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -53,7 +53,8 @@ public class MateriaControllerTest {
 
     MvcResult result = mvc
         .perform(
-            MockMvcRequestBuilders.get(String.format("/materias/%d", materia.getId())).contentType("application/json"))
+            MockMvcRequestBuilders.get(String.format("/api/materias/%d", materia.getId()))
+                .contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -65,7 +66,7 @@ public class MateriaControllerTest {
   void criaMateriaValida() throws Exception {
     MateriaDto materia = new MateriaDto(MateriaFactory.build());
 
-    mvc.perform(MockMvcRequestBuilders.post("/materias").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/materias").contentType("application/json")
         .content(objectMapper.writeValueAsString(materia))).andExpect(status().isOk());
 
     compare(repo.findByName(materia.name), materia);
@@ -75,7 +76,7 @@ public class MateriaControllerTest {
   void naoCriaMateriaInvalida() throws Exception {
     MateriaDto materia = new MateriaDto();
 
-    mvc.perform(MockMvcRequestBuilders.post("/materias").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/materias").contentType("application/json")
         .content(objectMapper.writeValueAsString(materia))).andExpect(status().isBadRequest());
   }
 

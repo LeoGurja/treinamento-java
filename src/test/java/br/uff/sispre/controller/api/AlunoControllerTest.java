@@ -1,4 +1,4 @@
-package br.uff.sispre.controller;
+package br.uff.sispre.controller.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class AlunoControllerTest {
     Aluno aluno1 = repo.save(AlunoFactory.build());
     Aluno aluno2 = repo.save(AlunoFactory.build());
 
-    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/alunos").contentType("application/json"))
+    MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/alunos").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -52,7 +52,8 @@ public class AlunoControllerTest {
     Aluno aluno = repo.save(AlunoFactory.build());
 
     MvcResult result = mvc
-        .perform(MockMvcRequestBuilders.get(String.format("/alunos/%d", aluno.getId())).contentType("application/json"))
+        .perform(
+            MockMvcRequestBuilders.get(String.format("/api/alunos/%d", aluno.getId())).contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
@@ -69,7 +70,7 @@ public class AlunoControllerTest {
     aluno.email = "carlinhos@email.com";
     aluno.phoneNumber = "11111111111";
 
-    mvc.perform(MockMvcRequestBuilders.post("/alunos").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/alunos").contentType("application/json")
         .content(objectMapper.writeValueAsString(aluno))).andExpect(status().isOk());
 
     compare(repo.findByCpf(aluno.cpf), aluno);
@@ -78,8 +79,17 @@ public class AlunoControllerTest {
   @Test
   void naoCriaAlunoInvalido() throws Exception {
     AlunoDto aluno = new AlunoDto();
-    mvc.perform(MockMvcRequestBuilders.post("/alunos").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post("/api/alunos").contentType("application/json")
         .content(objectMapper.writeValueAsString(aluno))).andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void deletaAlunoExistente() throws Exception {
+    Aluno aluno = repo.save(AlunoFactory.build());
+
+    mvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/api/alunos/%d", aluno.getId())).contentType("application/json"))
+        .andExpect(status().isOk());
   }
 
   private void compare(Aluno aluno, AlunoDto alunoResource) {
