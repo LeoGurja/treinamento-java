@@ -77,6 +77,15 @@ public class TurmaControllerTest {
         .content(objectMapper.writeValueAsString(turma))).andExpect(status().isBadRequest());
   }
 
+  @Test
+  void deletaTurmaExistente() throws Exception {
+    Turma turma = repo.save(TurmaFactory.build());
+
+    mvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/api/turmas/%d", turma.getId())).contentType("application/json"))
+        .andExpect(status().isOk());
+  }
+
   private void compare(Turma turma, TurmaDto turmaResource) {
     assertEquals(turma.getName(), turmaResource.name);
   }

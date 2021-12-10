@@ -81,4 +81,13 @@ public class NotaControllerTest {
     mvc.perform(MockMvcRequestBuilders.post("/api/notas").contentType("application/json")
         .content(objectMapper.writeValueAsString(nota))).andExpect(status().isBadRequest());
   }
+
+  @Test
+  void deletaNotaExistente() throws Exception {
+    Nota nota = repo.save(NotaFactory.build());
+
+    mvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/api/notas/%d", nota.getId())).contentType("application/json"))
+        .andExpect(status().isOk());
+  }
 }

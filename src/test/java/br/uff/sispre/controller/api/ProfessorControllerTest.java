@@ -83,6 +83,16 @@ public class ProfessorControllerTest {
         .content(objectMapper.writeValueAsString(professor))).andExpect(status().isBadRequest());
   }
 
+  @Test
+  void deletaProfessorExistente() throws Exception {
+    Professor professor = repo.save(ProfessorFactory.build());
+
+    mvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/api/professores/%d", professor.getId()))
+            .contentType("application/json"))
+        .andExpect(status().isOk());
+  }
+
   private void compare(Professor professor, ProfessorDto professorResource) {
     assertEquals(professor.getAddress(), professorResource.address);
     assertEquals(professor.getCpf(), professorResource.cpf);

@@ -80,6 +80,16 @@ public class MateriaControllerTest {
         .content(objectMapper.writeValueAsString(materia))).andExpect(status().isBadRequest());
   }
 
+  @Test
+  void deletaMateriaExistente() throws Exception {
+    Materia materia = repo.save(MateriaFactory.build());
+
+    mvc.perform(
+        MockMvcRequestBuilders.delete(String.format("/api/materias/%d", materia.getId()))
+            .contentType("application/json"))
+        .andExpect(status().isOk());
+  }
+
   private void compare(Materia materia, MateriaDto materiaResource) {
     assertEquals(materia.getDescription(), materiaResource.description);
     assertEquals(materia.getName(), materiaResource.name);
