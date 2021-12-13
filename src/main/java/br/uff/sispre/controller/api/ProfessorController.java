@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.uff.sispre.controller.dto.ProfessorDto;
 import br.uff.sispre.service.ProfessorService;
@@ -25,11 +24,7 @@ public class ProfessorController {
 
   @PostMapping
   public ProfessorDto create(@RequestBody ProfessorDto params) {
-    try {
-      return new ProfessorDto(professorService.create(params));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível criar o professor!", e);
-    }
+    return new ProfessorDto(professorService.create(params));
   }
 
   @GetMapping
@@ -45,11 +40,7 @@ public class ProfessorController {
 
   @PatchMapping(path = "/{id}")
   public ProfessorDto update(@RequestBody ProfessorDto params, @PathVariable Long id) {
-    try {
-      return new ProfessorDto(professorService.update(id, params));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível atualizar o professor!", e);
-    }
+    return new ProfessorDto(professorService.update(id, params));
   }
 
   @DeleteMapping(path = "/{id}")

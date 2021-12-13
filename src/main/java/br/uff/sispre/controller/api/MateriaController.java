@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.uff.sispre.controller.dto.MateriaDto;
 import br.uff.sispre.service.MateriaService;
@@ -25,11 +24,7 @@ public class MateriaController {
 
   @PostMapping
   public MateriaDto create(@RequestBody MateriaDto params) {
-    try {
-      return new MateriaDto(materiaService.create(params));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível criar a matéria!", e);
-    }
+    return new MateriaDto(materiaService.create(params));
   }
 
   @GetMapping
@@ -44,11 +39,7 @@ public class MateriaController {
 
   @PatchMapping(path = "/{id}")
   public MateriaDto update(@RequestBody MateriaDto params, @PathVariable Long id) {
-    try {
-      return new MateriaDto(materiaService.update(id, params));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível atualizar a matéria!", e);
-    }
+    return new MateriaDto(materiaService.update(id, params));
   }
 
   @DeleteMapping(path = "/{id}")

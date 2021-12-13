@@ -84,6 +84,19 @@ public class AlunoControllerTest {
   }
 
   @Test
+  void atualizaAluno() throws Exception {
+    AlunoDto aluno = new AlunoDto(repo.save(AlunoFactory.build()));
+    aluno.password = "Senha_segura";
+    aluno.email = "carlinhos@email.com";
+    aluno.phoneNumber = "11111111111";
+
+    mvc.perform(MockMvcRequestBuilders.patch(String.format("/api/alunos/%d", aluno.id)).contentType("application/json")
+        .content(objectMapper.writeValueAsString(aluno))).andExpect(status().isOk());
+
+    compare(repo.findByCpf(aluno.cpf), aluno);
+  }
+
+  @Test
   void deletaAlunoExistente() throws Exception {
     Aluno aluno = repo.save(AlunoFactory.build());
 

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.uff.sispre.controller.dto.AlunoDto;
 import br.uff.sispre.service.AlunoService;
@@ -25,11 +24,7 @@ public class AlunoController {
 
   @PostMapping
   public AlunoDto create(@RequestBody AlunoDto params) {
-    try {
-      return new AlunoDto(alunoService.create(params));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível criar o aluno!", e);
-    }
+    return new AlunoDto(alunoService.create(params));
   }
 
   @GetMapping
@@ -44,11 +39,7 @@ public class AlunoController {
 
   @PatchMapping(path = "/{id}")
   public AlunoDto update(@RequestBody AlunoDto aluno, @PathVariable Long id) {
-    try {
-      return new AlunoDto(alunoService.update(id, aluno));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível atualizar o aluno!", e);
-    }
+    return new AlunoDto(alunoService.update(id, aluno));
   }
 
   @DeleteMapping(path = "/{id}")

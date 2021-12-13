@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.uff.sispre.controller.dto.TurmaDto;
 import br.uff.sispre.service.TurmaService;
@@ -25,11 +24,7 @@ public class TurmaController {
 
   @PostMapping
   public TurmaDto create(@RequestBody TurmaDto turma) {
-    try {
-      return new TurmaDto(turmaService.create(turma));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível criar a turma!", e);
-    }
+    return new TurmaDto(turmaService.create(turma));
   }
 
   @GetMapping
@@ -44,11 +39,7 @@ public class TurmaController {
 
   @PatchMapping(path = "/{id}")
   public TurmaDto update(@RequestBody TurmaDto turma, @PathVariable Long id) {
-    try {
-      return new TurmaDto(turmaService.update(id, turma));
-    } catch (Exception e) {
-      throw new ResponseStatusException(400, "Não foi possível atualizar a turma!", e);
-    }
+    return new TurmaDto(turmaService.update(id, turma));
   }
 
   @DeleteMapping(path = "/{id}")

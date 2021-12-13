@@ -31,7 +31,11 @@ public class AlunoService {
   public Aluno create(AlunoDto params) {
     aluno = new Aluno();
     apply(params);
-    return repo.save(aluno);
+    try {
+      return repo.save(aluno);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível criar o aluno!");
+    }
   }
 
   public Aluno update(Long id, AlunoDto params) {
