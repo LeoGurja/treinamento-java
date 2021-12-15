@@ -6,12 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title th:text="#{index.title}"></title>
-  <script src="application.js" defer></script>
-  <link rel="stylesheet" href="application.css" />
+  <script th:src="@{application.js}" defer></script>
+  <link rel="stylesheet" th:href="@{application.css}" />
 </head>
 
 <body>
+  <nav class="nav justify-content-end">
+    <a class="nav-link" th:href="@{/}" th:text="#{nav.home}"></a>
+    <a class="nav-link" th:href="@{/alunos}" th:text="#{nav.alunos}"></a>
+    <a class="nav-link" th:href="@{/professores}" th:text="#{nav.professores}"></a>
+    <a class="nav-link" th:href="@{/materias}" th:text="#{nav.materias}"></a>
+    <a class="nav-link" th:href="@{/turmas}" th:text="#{nav.turmas}"></a>
+  </nav>
 
+  <h1 th:text="#{welcome}"></h1>
 </body>
 
 </html>
