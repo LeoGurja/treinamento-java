@@ -13,38 +13,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.uff.sispre.controller.dto.TurmaDto;
-import br.uff.sispre.service.TurmaService;
+import br.uff.sispre.controller.dto.MateriaDto;
+import br.uff.sispre.service.MateriaService;
 
 @RestController
-@RequestMapping(path = "/api/turmas")
-public class TurmaController {
+@RequestMapping(path = "/api/materias")
+public class MateriaApiController {
   @Autowired
-  private TurmaService turmaService;
+  private MateriaService materiaService;
 
   @PostMapping
-  public TurmaDto create(@RequestBody TurmaDto turma) {
-    return new TurmaDto(turmaService.create(turma));
+  public MateriaDto create(@RequestBody MateriaDto params) {
+    return new MateriaDto(materiaService.create(params));
   }
 
   @GetMapping
-  public List<TurmaDto> index() {
-    return turmaService.all().stream().map(turma -> new TurmaDto(turma)).collect(Collectors.toList());
+  public List<MateriaDto> index() {
+    return materiaService.all().stream().map(x -> new MateriaDto(x)).collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
-  public TurmaDto show(@PathVariable Long id) {
-    return new TurmaDto(turmaService.find(id));
+  public MateriaDto show(@PathVariable Long id) {
+    return new MateriaDto(materiaService.find(id));
   }
 
   @PatchMapping(path = "/{id}")
-  public TurmaDto update(@RequestBody TurmaDto turma, @PathVariable Long id) {
-    return new TurmaDto(turmaService.update(id, turma));
+  public MateriaDto update(@RequestBody MateriaDto params, @PathVariable Long id) {
+    return new MateriaDto(materiaService.update(id, params));
   }
 
   @DeleteMapping(path = "/{id}")
   public String delete(@PathVariable Long id) {
-    turmaService.delete(id);
+    materiaService.delete(id);
     return "Deleted";
   }
 }

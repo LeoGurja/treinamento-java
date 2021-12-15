@@ -13,38 +13,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.uff.sispre.controller.dto.AlunoDto;
-import br.uff.sispre.service.AlunoService;
+import br.uff.sispre.controller.dto.TurmaDto;
+import br.uff.sispre.service.TurmaService;
 
 @RestController
-@RequestMapping(path = "/api/alunos")
-public class AlunoController {
+@RequestMapping(path = "/api/turmas")
+public class TurmaApiController {
   @Autowired
-  private AlunoService alunoService;
+  private TurmaService turmaService;
 
   @PostMapping
-  public AlunoDto create(@RequestBody AlunoDto params) {
-    return new AlunoDto(alunoService.create(params));
+  public TurmaDto create(@RequestBody TurmaDto turma) {
+    return new TurmaDto(turmaService.create(turma));
   }
 
   @GetMapping
-  public List<AlunoDto> index() {
-    return alunoService.all().stream().map(x -> new AlunoDto(x)).collect(Collectors.toList());
+  public List<TurmaDto> index() {
+    return turmaService.all().stream().map(turma -> new TurmaDto(turma)).collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
-  public AlunoDto show(@PathVariable Long id) {
-    return new AlunoDto(alunoService.find(id));
+  public TurmaDto show(@PathVariable Long id) {
+    return new TurmaDto(turmaService.find(id));
   }
 
   @PatchMapping(path = "/{id}")
-  public AlunoDto update(@RequestBody AlunoDto aluno, @PathVariable Long id) {
-    return new AlunoDto(alunoService.update(id, aluno));
+  public TurmaDto update(@RequestBody TurmaDto turma, @PathVariable Long id) {
+    return new TurmaDto(turmaService.update(id, turma));
   }
 
   @DeleteMapping(path = "/{id}")
   public String delete(@PathVariable Long id) {
-    alunoService.delete(id);
+    turmaService.delete(id);
     return "Deleted";
   }
 }

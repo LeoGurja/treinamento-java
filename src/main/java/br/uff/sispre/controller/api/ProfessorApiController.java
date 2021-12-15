@@ -13,38 +13,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.uff.sispre.controller.dto.NotaDto;
-import br.uff.sispre.service.NotaService;
+import br.uff.sispre.controller.dto.ProfessorDto;
+import br.uff.sispre.service.ProfessorService;
 
 @RestController
-@RequestMapping(path = "/api/notas")
-public class NotaController {
+@RequestMapping(path = "/api/professores")
+public class ProfessorApiController {
   @Autowired
-  private NotaService notaService;
+  private ProfessorService professorService;
 
   @PostMapping
-  public NotaDto create(@RequestBody NotaDto params) {
-    return new NotaDto(notaService.create(params));
+  public ProfessorDto create(@RequestBody ProfessorDto params) {
+    return new ProfessorDto(professorService.create(params));
   }
 
   @GetMapping
-  public List<NotaDto> index() {
-    return notaService.all().stream().map(nota -> new NotaDto(nota)).collect(Collectors.toList());
+  public List<ProfessorDto> index() {
+    return professorService.all().stream().map(professor -> new ProfessorDto(professor))
+        .collect(Collectors.toList());
   }
 
   @GetMapping(path = "/{id}")
-  public NotaDto show(@PathVariable Long id) {
-    return new NotaDto(notaService.find(id));
+  public ProfessorDto show(@PathVariable Long id) {
+    return new ProfessorDto(professorService.find(id));
   }
 
   @PatchMapping(path = "/{id}")
-  public NotaDto update(@RequestBody NotaDto params, @PathVariable Long id) {
-    return new NotaDto(notaService.create(params));
+  public ProfessorDto update(@RequestBody ProfessorDto params, @PathVariable Long id) {
+    return new ProfessorDto(professorService.update(id, params));
   }
 
   @DeleteMapping(path = "/{id}")
   public String delete(@PathVariable Long id) {
-    notaService.delete(id);
+    professorService.delete(id);
     return "Deleted";
   }
 }
