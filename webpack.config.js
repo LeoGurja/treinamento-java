@@ -1,17 +1,21 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path')
+const fs = require('fs')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
 const stylesHandler = MiniCssExtractPlugin.loader
 
+const entry = {}
+const packsPath = './src/main/resources/js/packs'
+for (const e of fs.readdirSync(packsPath)) {
+  entry[e.replace('.js', '')] = `${packsPath}/${e}`
+}
+
 const config = {
-  entry: {
-    application: './src/main/resources/packs/application.js',
-    alunos: './src/main/resources/packs/alunos.js'
-  },
+  entry,
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'src/main/resources/static')
