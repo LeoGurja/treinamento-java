@@ -33,6 +33,7 @@ public abstract class PessoaDto<T extends Pessoa> {
   public String password;
 
   public PessoaDto(T pessoa) {
+    this.id = pessoa.getId();
     this.cpf = pessoa.getCpf();
     this.rg = pessoa.getRg();
     this.name = pessoa.getName();
