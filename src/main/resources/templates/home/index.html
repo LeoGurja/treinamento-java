@@ -1,23 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title th:text="#{index.title}"></title>
-  <script th:src="@{application.js}" defer></script>
-  <link rel="stylesheet" th:href="@{application.css}" />
-</head>
+<head th:replace="components/layout :: head"></head>
 
 <body>
-  <nav class="nav justify-content-end">
-    <a class="nav-link" th:href="@{/}" th:text="#{nav.home}"></a>
-    <a class="nav-link" th:href="@{/alunos}" th:text="#{nav.alunos}"></a>
-    <a class="nav-link" th:href="@{/professores}" th:text="#{nav.professores}"></a>
-    <a class="nav-link" th:href="@{/materias}" th:text="#{nav.materias}"></a>
-    <a class="nav-link" th:href="@{/turmas}" th:text="#{nav.turmas}"></a>
-  </nav>
+  <nav th:replace="components/layout :: nav"></nav>
 
   <h1 th:text="#{welcome}"></h1>
 </body>

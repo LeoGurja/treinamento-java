@@ -1,0 +1,18 @@
+<head th:fragment="head">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="#{sispre}"></title>
+  <script th:src="@{application.js}" defer></script>
+  <link rel="stylesheet" th:href="@{application.css}" />
+</head>
+
+<nav class="nav p-2" th:fragment="nav">
+  <a class="navbar-brand" href="@{/}" th:text="#{sispre}"></a>
+  <div class="d-flex ms-auto">
+    <a class="nav-link" th:href="@{/alunos}" th:text="#{nav.alunos}"></a>
+    <a class="nav-link" th:href="@{/professores}" th:text="#{nav.professores}"></a>
+    <a class="nav-link" th:href="@{/materias}" th:text="#{nav.materias}"></a>
+    <a class="nav-link" th:href="@{/turmas}" th:text="#{nav.turmas}"></a>
+  </div>
+</nav>
