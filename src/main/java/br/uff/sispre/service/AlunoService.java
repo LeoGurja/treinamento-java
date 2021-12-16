@@ -3,6 +3,7 @@ package br.uff.sispre.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,7 +34,7 @@ public class AlunoService {
     apply(params);
     try {
       return repo.save(aluno);
-    } catch (Exception e) {
+    } catch (DataIntegrityViolationException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível criar o aluno!");
     }
   }
