@@ -17,7 +17,7 @@ import br.uff.sispre.controller.dto.MateriaDto;
 import br.uff.sispre.service.MateriaService;
 
 @RestController
-@RequestMapping(path = "/api/materias")
+@RequestMapping("/api/materias")
 public class MateriaApiController {
   @Autowired
   private MateriaService materiaService;
@@ -32,17 +32,17 @@ public class MateriaApiController {
     return materiaService.all().stream().map(x -> new MateriaDto(x)).collect(Collectors.toList());
   }
 
-  @GetMapping(path = "/{id}")
+  @GetMapping("/{id}")
   public MateriaDto show(@PathVariable Long id) {
     return new MateriaDto(materiaService.find(id));
   }
 
-  @PatchMapping(path = "/{id}")
+  @PatchMapping("/{id}")
   public MateriaDto update(@RequestBody MateriaDto params, @PathVariable Long id) {
     return new MateriaDto(materiaService.update(id, params));
   }
 
-  @DeleteMapping(path = "/{id}")
+  @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
     materiaService.delete(id);
     return "Deleted";

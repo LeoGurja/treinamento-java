@@ -17,7 +17,7 @@ import br.uff.sispre.controller.dto.ProfessorDto;
 import br.uff.sispre.service.ProfessorService;
 
 @RestController
-@RequestMapping(path = "/api/professores")
+@RequestMapping("/api/professores")
 public class ProfessorApiController {
   @Autowired
   private ProfessorService professorService;
@@ -33,17 +33,17 @@ public class ProfessorApiController {
         .collect(Collectors.toList());
   }
 
-  @GetMapping(path = "/{id}")
+  @GetMapping("/{id}")
   public ProfessorDto show(@PathVariable Long id) {
     return new ProfessorDto(professorService.find(id));
   }
 
-  @PatchMapping(path = "/{id}")
+  @PatchMapping("/{id}")
   public ProfessorDto update(@RequestBody ProfessorDto params, @PathVariable Long id) {
     return new ProfessorDto(professorService.update(id, params));
   }
 
-  @DeleteMapping(path = "/{id}")
+  @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
     professorService.delete(id);
     return "Deleted";

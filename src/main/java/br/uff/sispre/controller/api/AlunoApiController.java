@@ -17,7 +17,7 @@ import br.uff.sispre.controller.dto.AlunoDto;
 import br.uff.sispre.service.AlunoService;
 
 @RestController
-@RequestMapping(path = "/api/alunos")
+@RequestMapping("/api/alunos")
 public class AlunoApiController {
   @Autowired
   private AlunoService alunoService;
@@ -32,17 +32,17 @@ public class AlunoApiController {
     return alunoService.all().stream().map(x -> new AlunoDto(x)).collect(Collectors.toList());
   }
 
-  @GetMapping(path = "/{id}")
+  @GetMapping("/{id}")
   public AlunoDto show(@PathVariable Long id) {
     return new AlunoDto(alunoService.find(id));
   }
 
-  @PatchMapping(path = "/{id}")
+  @PatchMapping("/{id}")
   public AlunoDto update(@RequestBody AlunoDto aluno, @PathVariable Long id) {
     return new AlunoDto(alunoService.update(id, aluno));
   }
 
-  @DeleteMapping(path = "/{id}")
+  @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
     alunoService.delete(id);
     return "Deleted";

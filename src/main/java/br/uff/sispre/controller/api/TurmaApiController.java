@@ -17,7 +17,7 @@ import br.uff.sispre.controller.dto.TurmaDto;
 import br.uff.sispre.service.TurmaService;
 
 @RestController
-@RequestMapping(path = "/api/turmas")
+@RequestMapping("/api/turmas")
 public class TurmaApiController {
   @Autowired
   private TurmaService turmaService;
@@ -32,17 +32,17 @@ public class TurmaApiController {
     return turmaService.all().stream().map(turma -> new TurmaDto(turma)).collect(Collectors.toList());
   }
 
-  @GetMapping(path = "/{id}")
+  @GetMapping("/{id}")
   public TurmaDto show(@PathVariable Long id) {
     return new TurmaDto(turmaService.find(id));
   }
 
-  @PatchMapping(path = "/{id}")
+  @PatchMapping("/{id}")
   public TurmaDto update(@RequestBody TurmaDto turma, @PathVariable Long id) {
     return new TurmaDto(turmaService.update(id, turma));
   }
 
-  @DeleteMapping(path = "/{id}")
+  @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
     turmaService.delete(id);
     return "Deleted";

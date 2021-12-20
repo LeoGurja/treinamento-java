@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/materias")
 public class MateriaController {
-  @GetMapping(path = "/")
+  @GetMapping("/")
   public String index() {
     return "materias/index";
   }

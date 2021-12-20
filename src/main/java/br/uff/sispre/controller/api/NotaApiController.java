@@ -17,7 +17,7 @@ import br.uff.sispre.controller.dto.NotaDto;
 import br.uff.sispre.service.NotaService;
 
 @RestController
-@RequestMapping(path = "/api/notas")
+@RequestMapping("/api/notas")
 public class NotaApiController {
   @Autowired
   private NotaService notaService;
@@ -32,17 +32,17 @@ public class NotaApiController {
     return notaService.all().stream().map(nota -> new NotaDto(nota)).collect(Collectors.toList());
   }
 
-  @GetMapping(path = "/{id}")
+  @GetMapping("/{id}")
   public NotaDto show(@PathVariable Long id) {
     return new NotaDto(notaService.find(id));
   }
 
-  @PatchMapping(path = "/{id}")
+  @PatchMapping("/{id}")
   public NotaDto update(@RequestBody NotaDto params, @PathVariable Long id) {
     return new NotaDto(notaService.create(params));
   }
 
-  @DeleteMapping(path = "/{id}")
+  @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
     notaService.delete(id);
     return "Deleted";
