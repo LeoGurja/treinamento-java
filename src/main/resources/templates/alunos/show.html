@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="components/layout :: head"></head>
+
+<body>
+  <nav th:replace="components/layout :: nav"></nav>
+
+  <h1 th:text="${aluno.name}"></h1>
+  <h2 th:text="#{documents}"></h2>
+  <p><span th:text="#{cpf}"></span>: <span th:text="${aluno.cpf}"></span></p>
+  <p><span th:text="#{rg}"></span>: <span th:text="${aluno.rg}"></span></p>
+  <h2 th:text="#{contact}"></h2>
+  <p><span th:text="#{email}"></span>: <span th:text="${aluno.email}"></span></p>
+  <p><span th:text="#{phoneNumber}"></span>: <span th:text="${aluno.phoneNumber}"></span></p>
+  <p><span th:text="#{address}"></span>: <span th:text="${aluno.address}"></span></p>
+</body>
+
+</html>
