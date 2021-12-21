@@ -7,13 +7,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title th:text="#{sispre}"></title>
   <script th:src="@{/application.js}" defer></script>
+  <script th:src="@{/alunos.js}" defer></script>
   <link rel="stylesheet" th:href="@{/application.css}" />
+  <link rel="stylesheet" th:href="@{/alunos.css}" />
 </head>
 
 <body>
   <nav th:replace="components/nav :: nav"></nav>
-
-  <h1 th:text="#{bemvindo}"></h1>
+  <main class="container">
+    <div class="gridjs"></div>
+  </main>
 </body>
 
 </html>
