@@ -32,5 +32,5 @@ public class Turma {
   private List<Aluno> alunos = new ArrayList<>();
 
   @Column(name = "name", nullable = false, unique = true)
-  private String name;
+  private String nome;
 }

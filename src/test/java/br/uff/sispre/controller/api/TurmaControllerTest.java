@@ -31,24 +31,24 @@ public class TurmaControllerTest {
   private ObjectMapper objectMapper;
 
   @Autowired
-  private TurmaDao repo;
+  private TurmaDao turmaDao;
 
   @Test
   void listaTurma() throws Exception {
-    Turma turma1 = repo.save(TurmaFactory.build());
-    Turma turma2 = repo.save(TurmaFactory.build());
+    Turma turma1 = turmaDao.save(TurmaFactory.build());
+    Turma turma2 = turmaDao.save(TurmaFactory.build());
 
     MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/turmas").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(turma1.getName()));
-    assertTrue(content.contains(turma2.getName()));
+    assertTrue(content.contains(turma1.getNome()));
+    assertTrue(content.contains(turma2.getNome()));
   }
 
   @Test
   void mostraTurma() throws Exception {
-    Turma turma = repo.save(TurmaFactory.build());
+    Turma turma = turmaDao.save(TurmaFactory.build());
 
     MvcResult result = mvc
         .perform(
@@ -56,7 +56,7 @@ public class TurmaControllerTest {
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(turma.getName()));
+    assertTrue(content.contains(turma.getNome()));
   }
 
   @Test
@@ -66,7 +66,7 @@ public class TurmaControllerTest {
     mvc.perform(MockMvcRequestBuilders.post("/api/turmas").contentType("application/json")
         .content(objectMapper.writeValueAsString(turma))).andExpect(status().isOk());
 
-    compare(repo.findByName(turma.name), turma);
+    compare(turmaDao.findByNome(turma.nome), turma);
   }
 
   @Test
@@ -79,7 +79,7 @@ public class TurmaControllerTest {
 
   @Test
   void deletaTurmaExistente() throws Exception {
-    Turma turma = repo.save(TurmaFactory.build());
+    Turma turma = turmaDao.save(TurmaFactory.build());
 
     mvc.perform(
         MockMvcRequestBuilders.delete(String.format("/api/turmas/%d", turma.getId())).contentType("application/json"))
@@ -87,6 +87,6 @@ public class TurmaControllerTest {
   }
 
   private void compare(Turma turma, TurmaDto turmaResource) {
-    assertEquals(turma.getName(), turmaResource.name);
+    assertEquals(turma.getNome(), turmaResource.nome);
   }
 }

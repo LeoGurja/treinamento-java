@@ -18,27 +18,27 @@ public abstract class PessoaDto<T extends Pessoa> {
   public String rg;
 
   @JsonProperty
-  public String name;
+  public String nome;
 
   @JsonProperty
-  public String address;
+  public String endereco;
 
   @JsonProperty
-  public String phoneNumber;
+  public String telefone;
 
   @JsonProperty
   public String email;
 
   @JsonIgnore
-  public String password;
+  public String senha;
 
   public PessoaDto(T pessoa) {
     this.id = pessoa.getId();
     this.cpf = pessoa.getCpf();
     this.rg = pessoa.getRg();
-    this.name = pessoa.getName();
-    this.address = pessoa.getAddress();
-    this.phoneNumber = pessoa.getPhoneNumber();
+    this.nome = pessoa.getNome();
+    this.endereco = pessoa.getEndereco();
+    this.telefone = pessoa.getTelefone();
     this.email = pessoa.getEmail();
   }
 }

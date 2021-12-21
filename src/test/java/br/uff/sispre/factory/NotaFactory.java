@@ -7,7 +7,7 @@ public class NotaFactory {
     Nota nota = new Nota();
     nota.setAluno(AlunoFactory.build());
     nota.setMateria(MateriaFactory.build());
-    nota.setValue(10.0);
+    nota.setNota(10.0);
     return nota;
   }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/materias")
 public class MateriaController {
   @GetMapping("/")
-  public String index() {
+  public String listaMaterias() {
     return "materias/index";
   }
 }

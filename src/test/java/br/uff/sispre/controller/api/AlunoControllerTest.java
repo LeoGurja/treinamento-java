@@ -32,24 +32,24 @@ public class AlunoControllerTest {
   private ObjectMapper objectMapper;
 
   @Autowired
-  private AlunoDao repo;
+  private AlunoDao alunoDao;
 
   @Test
   void listaAlunos() throws Exception {
-    Aluno aluno1 = repo.save(AlunoFactory.build());
-    Aluno aluno2 = repo.save(AlunoFactory.build());
+    Aluno aluno1 = alunoDao.save(AlunoFactory.build());
+    Aluno aluno2 = alunoDao.save(AlunoFactory.build());
 
     MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/alunos").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(aluno1.getName()));
-    assertTrue(content.contains(aluno2.getName()));
+    assertTrue(content.contains(aluno1.getNome()));
+    assertTrue(content.contains(aluno2.getNome()));
   }
 
   @Test
   void mostraAluno() throws Exception {
-    Aluno aluno = repo.save(AlunoFactory.build());
+    Aluno aluno = alunoDao.save(AlunoFactory.build());
 
     MvcResult result = mvc
         .perform(
@@ -57,23 +57,23 @@ public class AlunoControllerTest {
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(aluno.getName()));
+    assertTrue(content.contains(aluno.getNome()));
     assertTrue(content.contains(aluno.getCpf()));
-    assertTrue(content.contains(aluno.getAddress()));
+    assertTrue(content.contains(aluno.getEndereco()));
     assertTrue(content.contains(aluno.getRg()));
   }
 
   @Test
   void criaAlunoValido() throws Exception {
     AlunoDto aluno = new AlunoDto(AlunoFactory.build());
-    aluno.password = "Senha_segura";
+    aluno.senha = "Senha_segura";
     aluno.email = "carlinhos@email.com";
-    aluno.phoneNumber = "11111111111";
+    aluno.telefone = "11111111111";
 
     mvc.perform(MockMvcRequestBuilders.post("/api/alunos").contentType("application/json")
         .content(objectMapper.writeValueAsString(aluno))).andExpect(status().isOk());
 
-    compare(repo.findByCpf(aluno.cpf), aluno);
+    compare(alunoDao.findByCpf(aluno.cpf), aluno);
   }
 
   @Test
@@ -85,20 +85,20 @@ public class AlunoControllerTest {
 
   @Test
   void atualizaAluno() throws Exception {
-    AlunoDto aluno = new AlunoDto(repo.save(AlunoFactory.build()));
-    aluno.password = "Senha_segura";
+    AlunoDto aluno = new AlunoDto(alunoDao.save(AlunoFactory.build()));
+    aluno.senha = "Senha_segura";
     aluno.email = "carlinhos@email.com";
-    aluno.phoneNumber = "11111111111";
+    aluno.telefone = "11111111111";
 
     mvc.perform(MockMvcRequestBuilders.patch(String.format("/api/alunos/%d", aluno.id)).contentType("application/json")
         .content(objectMapper.writeValueAsString(aluno))).andExpect(status().isOk());
 
-    compare(repo.findByCpf(aluno.cpf), aluno);
+    compare(alunoDao.findByCpf(aluno.cpf), aluno);
   }
 
   @Test
   void deletaAlunoExistente() throws Exception {
-    Aluno aluno = repo.save(AlunoFactory.build());
+    Aluno aluno = alunoDao.save(AlunoFactory.build());
 
     mvc.perform(
         MockMvcRequestBuilders.delete(String.format("/api/alunos/%d", aluno.getId())).contentType("application/json"))
@@ -106,11 +106,11 @@ public class AlunoControllerTest {
   }
 
   private void compare(Aluno aluno, AlunoDto alunoResource) {
-    assertEquals(aluno.getAddress(), alunoResource.address);
+    assertEquals(aluno.getEndereco(), alunoResource.endereco);
     assertEquals(aluno.getRg(), alunoResource.rg);
-    assertEquals(aluno.getPhoneNumber(), alunoResource.phoneNumber);
+    assertEquals(aluno.getTelefone(), alunoResource.telefone);
     assertEquals(aluno.getEmail(), alunoResource.email);
-    assertEquals(aluno.getName(), alunoResource.name);
-    assertEquals(aluno.getPasswordDigest(), Sha256.encryptPassword(alunoResource.password));
+    assertEquals(aluno.getNome(), alunoResource.nome);
+    assertEquals(aluno.getHashSenha(), Sha256.encryptPassword(alunoResource.senha));
   }
 }

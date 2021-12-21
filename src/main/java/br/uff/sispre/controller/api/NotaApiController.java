@@ -23,28 +23,28 @@ public class NotaApiController {
   private NotaService notaService;
 
   @PostMapping
-  public NotaDto create(@RequestBody NotaDto params) {
-    return new NotaDto(notaService.create(params));
+  public NotaDto criaNota(@RequestBody NotaDto params) {
+    return new NotaDto(notaService.criaNota(params));
   }
 
   @GetMapping
-  public List<NotaDto> index() {
-    return notaService.all().stream().map(nota -> new NotaDto(nota)).collect(Collectors.toList());
+  public List<NotaDto> listaNotas() {
+    return notaService.listaNotas().stream().map(nota -> new NotaDto(nota)).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
-  public NotaDto show(@PathVariable Long id) {
-    return new NotaDto(notaService.find(id));
+  public NotaDto mostraNota(@PathVariable Long id) {
+    return new NotaDto(notaService.porId(id));
   }
 
   @PatchMapping("/{id}")
-  public NotaDto update(@RequestBody NotaDto params, @PathVariable Long id) {
-    return new NotaDto(notaService.create(params));
+  public NotaDto alteraNota(@RequestBody NotaDto params, @PathVariable Long id) {
+    return new NotaDto(notaService.criaNota(params));
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable Long id) {
-    notaService.delete(id);
+  public String deletaNota(@PathVariable Long id) {
+    notaService.deletaNota(id);
     return "Deleted";
   }
 }

@@ -23,17 +23,17 @@ public class MateriaDto {
   public List<Long> notaIds;
 
   @JsonProperty
-  public String name;
+  public String nome;
 
   @JsonProperty
-  public String description;
+  public String descricao;
 
   @JsonProperty
   public Long professorId;
 
   public MateriaDto(Materia materia) {
-    this.name = materia.getName();
-    this.description = materia.getDescription();
+    this.nome = materia.getNome();
+    this.descricao = materia.getDescricao();
 
     this.professorId = materia.getProfessor().map(Professor::getId).orElse(null);
     this.turmaIds = materia.getTurmas().stream().map(Turma::getId).collect(Collectors.toList());

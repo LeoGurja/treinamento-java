@@ -23,28 +23,28 @@ public class MateriaApiController {
   private MateriaService materiaService;
 
   @PostMapping
-  public MateriaDto create(@RequestBody MateriaDto params) {
-    return new MateriaDto(materiaService.create(params));
+  public MateriaDto criaMateria(@RequestBody MateriaDto params) {
+    return new MateriaDto(materiaService.criaMateria(params));
   }
 
   @GetMapping
-  public List<MateriaDto> index() {
-    return materiaService.all().stream().map(x -> new MateriaDto(x)).collect(Collectors.toList());
+  public List<MateriaDto> listaMaterias() {
+    return materiaService.listaMaterias().stream().map(x -> new MateriaDto(x)).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
-  public MateriaDto show(@PathVariable Long id) {
-    return new MateriaDto(materiaService.find(id));
+  public MateriaDto mostraMateria(@PathVariable Long id) {
+    return new MateriaDto(materiaService.porId(id));
   }
 
   @PatchMapping("/{id}")
-  public MateriaDto update(@RequestBody MateriaDto params, @PathVariable Long id) {
-    return new MateriaDto(materiaService.update(id, params));
+  public MateriaDto alteraMateria(@RequestBody MateriaDto params, @PathVariable Long id) {
+    return new MateriaDto(materiaService.alteraMateria(id, params));
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable Long id) {
-    materiaService.delete(id);
+  public String deletaMateria(@PathVariable Long id) {
+    materiaService.deletaMateria(id);
     return "Deleted";
   }
 }

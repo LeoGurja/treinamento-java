@@ -31,24 +31,24 @@ public class NotaControllerTest {
   private ObjectMapper objectMapper;
 
   @Autowired
-  private NotaDao repo;
+  private NotaDao notaDao;
 
   @Test
   void listaNotas() throws Exception {
-    Nota nota1 = repo.save(NotaFactory.build());
-    Nota nota2 = repo.save(NotaFactory.build());
+    Nota nota1 = notaDao.save(NotaFactory.build());
+    Nota nota2 = notaDao.save(NotaFactory.build());
 
     MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/notas").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(nota1.getValue().toString()));
-    assertTrue(content.contains(nota2.getValue().toString()));
+    assertTrue(content.contains(nota1.getNota().toString()));
+    assertTrue(content.contains(nota2.getNota().toString()));
   }
 
   @Test
   void mostraNota() throws Exception {
-    Nota nota = repo.save(NotaFactory.build());
+    Nota nota = notaDao.save(NotaFactory.build());
 
     MvcResult result = mvc
         .perform(
@@ -56,14 +56,14 @@ public class NotaControllerTest {
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(nota.getValue().toString()));
+    assertTrue(content.contains(nota.getNota().toString()));
     assertTrue(content.contains(nota.getMateria().getId().toString()));
     assertTrue(content.contains(nota.getAluno().getId().toString()));
   }
 
   @Test
   void criaNotaValida() throws Exception {
-    NotaDto nota = new NotaDto(repo.save(NotaFactory.build()));
+    NotaDto nota = new NotaDto(notaDao.save(NotaFactory.build()));
 
     MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/api/notas").contentType("application/json")
         .content(objectMapper.writeValueAsString(nota))).andExpect(status().isOk()).andReturn();
@@ -71,7 +71,7 @@ public class NotaControllerTest {
 
     assertTrue(content.contains(nota.alunoId.toString()));
     assertTrue(content.contains(nota.materiaId.toString()));
-    assertTrue(content.contains(nota.value.toString()));
+    assertTrue(content.contains(nota.nota.toString()));
   }
 
   @Test
@@ -79,12 +79,12 @@ public class NotaControllerTest {
     NotaDto nota = new NotaDto();
 
     mvc.perform(MockMvcRequestBuilders.post("/api/notas").contentType("application/json")
-        .content(objectMapper.writeValueAsString(nota))).andExpect(status().isBadRequest());
+        .content(objectMapper.writeValueAsString(nota))).andExpect(status().isNotFound());
   }
 
   @Test
   void deletaNotaExistente() throws Exception {
-    Nota nota = repo.save(NotaFactory.build());
+    Nota nota = notaDao.save(NotaFactory.build());
 
     mvc.perform(
         MockMvcRequestBuilders.delete(String.format("/api/notas/%d", nota.getId())).contentType("application/json"))

@@ -11,8 +11,8 @@ public abstract class AlunoFactory {
     Aluno aluno = new Aluno();
     aluno.setCpf(String.format("%d", cpfCounter++));
     aluno.setRg(String.format("%d", rgCounter++));
-    aluno.setName(String.format("Aluno %d", nameCounter++));
-    aluno.setAddress("Algum lugar");
+    aluno.setNome(String.format("Aluno %d", nameCounter++));
+    aluno.setEndereco("Algum lugar");
     return aluno;
   }
 }

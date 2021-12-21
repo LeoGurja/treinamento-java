@@ -23,28 +23,28 @@ public class AlunoApiController {
   private AlunoService alunoService;
 
   @PostMapping
-  public AlunoDto create(@RequestBody AlunoDto params) {
-    return new AlunoDto(alunoService.create(params));
+  public AlunoDto criaAluno(@RequestBody AlunoDto params) {
+    return new AlunoDto(alunoService.criaAluno(params));
   }
 
   @GetMapping
-  public List<AlunoDto> index() {
-    return alunoService.all().stream().map(x -> new AlunoDto(x)).collect(Collectors.toList());
+  public List<AlunoDto> listaAlunos() {
+    return alunoService.listaAlunos().stream().map(x -> new AlunoDto(x)).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
-  public AlunoDto show(@PathVariable Long id) {
-    return new AlunoDto(alunoService.find(id));
+  public AlunoDto mostraAluno(@PathVariable Long id) {
+    return new AlunoDto(alunoService.porId(id));
   }
 
   @PatchMapping("/{id}")
-  public AlunoDto update(@RequestBody AlunoDto aluno, @PathVariable Long id) {
-    return new AlunoDto(alunoService.update(id, aluno));
+  public AlunoDto alteraAluno(@RequestBody AlunoDto aluno, @PathVariable Long id) {
+    return new AlunoDto(alunoService.alteraAluno(id, aluno));
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable Long id) {
-    alunoService.delete(id);
+  public String deletaAluno(@PathVariable Long id) {
+    alunoService.deletaAluno(id);
     return "Deleted";
   }
 }

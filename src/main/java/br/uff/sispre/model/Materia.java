@@ -38,10 +38,10 @@ public class Materia {
   private List<Nota> notas = new ArrayList<>();
 
   @Column(name = "name", nullable = false, unique = true)
-  private String name;
+  private String nome;
 
   @Column(name = "description", nullable = false)
-  private String description;
+  private String descricao;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "professor_id")

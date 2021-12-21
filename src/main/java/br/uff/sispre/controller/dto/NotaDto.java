@@ -17,10 +17,10 @@ public class NotaDto {
   public Long materiaId;
 
   @JsonProperty
-  public Double value;
+  public Double nota;
 
   public NotaDto(Nota nota) {
-    this.value = nota.getValue();
+    this.nota = nota.getNota();
 
     this.alunoId = nota.getAluno().getId();
     this.materiaId = nota.getMateria().getId();

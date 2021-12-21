@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/turmas")
 public class TurmaController {
   @GetMapping("/")
-  public String index() {
+  public String listaTurmas() {
     return "turmas/index";
   }
 }

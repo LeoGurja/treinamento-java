@@ -32,24 +32,24 @@ public class MateriaControllerTest {
   private ObjectMapper objectMapper;
 
   @Autowired
-  private MateriaDao repo;
+  private MateriaDao materiaDao;
 
   @Test
   void listaMaterias() throws Exception {
-    Materia materia1 = repo.save(MateriaFactory.build());
-    Materia materia2 = repo.save(MateriaFactory.build());
+    Materia materia1 = materiaDao.save(MateriaFactory.build());
+    Materia materia2 = materiaDao.save(MateriaFactory.build());
 
     MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/materias").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(materia1.getName()));
-    assertTrue(content.contains(materia2.getName()));
+    assertTrue(content.contains(materia1.getNome()));
+    assertTrue(content.contains(materia2.getNome()));
   }
 
   @Test
   void mostraMateria() throws Exception {
-    Materia materia = repo.save(MateriaFactory.build());
+    Materia materia = materiaDao.save(MateriaFactory.build());
 
     MvcResult result = mvc
         .perform(
@@ -58,8 +58,8 @@ public class MateriaControllerTest {
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(materia.getName()));
-    assertTrue(content.contains(materia.getDescription()));
+    assertTrue(content.contains(materia.getNome()));
+    assertTrue(content.contains(materia.getDescricao()));
   }
 
   @Test
@@ -69,7 +69,7 @@ public class MateriaControllerTest {
     mvc.perform(MockMvcRequestBuilders.post("/api/materias").contentType("application/json")
         .content(objectMapper.writeValueAsString(materia))).andExpect(status().isOk());
 
-    compare(repo.findByName(materia.name), materia);
+    compare(materiaDao.findByNome(materia.nome), materia);
   }
 
   @Test
@@ -82,7 +82,7 @@ public class MateriaControllerTest {
 
   @Test
   void deletaMateriaExistente() throws Exception {
-    Materia materia = repo.save(MateriaFactory.build());
+    Materia materia = materiaDao.save(MateriaFactory.build());
 
     mvc.perform(
         MockMvcRequestBuilders.delete(String.format("/api/materias/%d", materia.getId()))
@@ -91,7 +91,7 @@ public class MateriaControllerTest {
   }
 
   private void compare(Materia materia, MateriaDto materiaResource) {
-    assertEquals(materia.getDescription(), materiaResource.description);
-    assertEquals(materia.getName(), materiaResource.name);
+    assertEquals(materia.getDescricao(), materiaResource.descricao);
+    assertEquals(materia.getNome(), materiaResource.nome);
   }
 }

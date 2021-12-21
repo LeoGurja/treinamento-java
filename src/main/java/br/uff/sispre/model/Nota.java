@@ -30,5 +30,5 @@ public class Nota {
   private Materia materia;
 
   @Column(name = "value")
-  private Double value;
+  private Double nota;
 }

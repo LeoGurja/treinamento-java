@@ -22,10 +22,10 @@ public class TurmaDto {
   public List<Long> alunoIds;
 
   @JsonProperty
-  public String name;
+  public String nome;
 
   public TurmaDto(Turma turma) {
-    this.name = turma.getName();
+    this.nome = turma.getNome();
     this.materiaIds = turma.getMaterias().stream().map(Materia::getId).collect(Collectors.toList());
     this.alunoIds = turma.getAlunos().stream().map(Aluno::getId).collect(Collectors.toList());
   }

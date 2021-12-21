@@ -23,29 +23,29 @@ public class ProfessorApiController {
   private ProfessorService professorService;
 
   @PostMapping
-  public ProfessorDto create(@RequestBody ProfessorDto params) {
-    return new ProfessorDto(professorService.create(params));
+  public ProfessorDto criaProfessor(@RequestBody ProfessorDto params) {
+    return new ProfessorDto(professorService.criaProfessor(params));
   }
 
   @GetMapping
-  public List<ProfessorDto> index() {
-    return professorService.all().stream().map(professor -> new ProfessorDto(professor))
+  public List<ProfessorDto> listaProfessores() {
+    return professorService.listaProfessores().stream().map(professor -> new ProfessorDto(professor))
         .collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
-  public ProfessorDto show(@PathVariable Long id) {
-    return new ProfessorDto(professorService.find(id));
+  public ProfessorDto mostraProfessor(@PathVariable Long id) {
+    return new ProfessorDto(professorService.porId(id));
   }
 
   @PatchMapping("/{id}")
-  public ProfessorDto update(@RequestBody ProfessorDto params, @PathVariable Long id) {
-    return new ProfessorDto(professorService.update(id, params));
+  public ProfessorDto alteraProfessor(@RequestBody ProfessorDto params, @PathVariable Long id) {
+    return new ProfessorDto(professorService.alteraProfessor(id, params));
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable Long id) {
-    professorService.delete(id);
+  public String deletaProfessor(@PathVariable Long id) {
+    professorService.deletaProfessor(id);
     return "Deleted";
   }
 }

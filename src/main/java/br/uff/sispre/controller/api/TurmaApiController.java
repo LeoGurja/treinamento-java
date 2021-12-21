@@ -23,28 +23,28 @@ public class TurmaApiController {
   private TurmaService turmaService;
 
   @PostMapping
-  public TurmaDto create(@RequestBody TurmaDto turma) {
-    return new TurmaDto(turmaService.create(turma));
+  public TurmaDto criaTurma(@RequestBody TurmaDto turma) {
+    return new TurmaDto(turmaService.criaTurma(turma));
   }
 
   @GetMapping
-  public List<TurmaDto> index() {
-    return turmaService.all().stream().map(turma -> new TurmaDto(turma)).collect(Collectors.toList());
+  public List<TurmaDto> listaTurmas() {
+    return turmaService.listaTurmas().stream().map(turma -> new TurmaDto(turma)).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
-  public TurmaDto show(@PathVariable Long id) {
-    return new TurmaDto(turmaService.find(id));
+  public TurmaDto mostraTurma(@PathVariable Long id) {
+    return new TurmaDto(turmaService.porId(id));
   }
 
   @PatchMapping("/{id}")
-  public TurmaDto update(@RequestBody TurmaDto turma, @PathVariable Long id) {
-    return new TurmaDto(turmaService.update(id, turma));
+  public TurmaDto alteraTurma(@RequestBody TurmaDto turma, @PathVariable Long id) {
+    return new TurmaDto(turmaService.alteraTurma(id, turma));
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable Long id) {
-    turmaService.delete(id);
+  public String deletaTurma(@PathVariable Long id) {
+    turmaService.deletaTurma(id);
     return "Deleted";
   }
 }

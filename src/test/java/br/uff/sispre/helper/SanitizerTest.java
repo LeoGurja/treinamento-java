@@ -22,12 +22,12 @@ public class SanitizerTest {
   @Test
   void sanitizaNumeroDeTelefone() {
     String phoneNumber = "(12)34567-8901";
-    assertEquals(Sanitizer.sanitize(Sanitizer.phoneNumber, phoneNumber), "12345678901");
+    assertEquals(Sanitizer.sanitize(Sanitizer.telefone, phoneNumber), "12345678901");
   }
 
   @Test
   void sanitizaEspacosEmBranco() {
     String phoneNumber = "(21) 99999 9999";
-    assertEquals(Sanitizer.sanitize(Sanitizer.whitespace, phoneNumber), "(21)999999999");
+    assertEquals(Sanitizer.sanitize(Sanitizer.espacosBrancos, phoneNumber), "(21)999999999");
   }
 }

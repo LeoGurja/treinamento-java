@@ -32,24 +32,24 @@ public class ProfessorControllerTest {
   private ObjectMapper objectMapper;
 
   @Autowired
-  private ProfessorDao repo;
+  private ProfessorDao professorDao;
 
   @Test
   void listaProfessores() throws Exception {
-    Professor professor1 = repo.save(ProfessorFactory.build());
-    Professor professor2 = repo.save(ProfessorFactory.build());
+    Professor professor1 = professorDao.save(ProfessorFactory.build());
+    Professor professor2 = professorDao.save(ProfessorFactory.build());
 
     MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/professores").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(professor1.getName()));
-    assertTrue(content.contains(professor2.getName()));
+    assertTrue(content.contains(professor1.getNome()));
+    assertTrue(content.contains(professor2.getNome()));
   }
 
   @Test
   void mostraProfessor() throws Exception {
-    Professor professor = repo.save(ProfessorFactory.build());
+    Professor professor = professorDao.save(ProfessorFactory.build());
 
     MvcResult result = mvc
         .perform(MockMvcRequestBuilders.get(String.format("/api/professores/%d", professor.getId()))
@@ -57,23 +57,23 @@ public class ProfessorControllerTest {
         .andExpect(status().isOk()).andReturn();
     String content = result.getResponse().getContentAsString();
 
-    assertTrue(content.contains(professor.getName()));
+    assertTrue(content.contains(professor.getNome()));
     assertTrue(content.contains(professor.getCpf()));
-    assertTrue(content.contains(professor.getAddress()));
+    assertTrue(content.contains(professor.getEndereco()));
     assertTrue(content.contains(professor.getRg()));
   }
 
   @Test
   void criaProfessorValido() throws Exception {
     ProfessorDto professor = new ProfessorDto(ProfessorFactory.build());
-    professor.password = "Senha_segura";
+    professor.senha= "Senha_segura";
     professor.email = "carlinhos@email.com";
-    professor.phoneNumber = "11111111111";
+    professor.telefone = "11111111111";
 
     mvc.perform(MockMvcRequestBuilders.post("/api/professores").contentType("application/json")
         .content(objectMapper.writeValueAsString(professor))).andExpect(status().isOk());
 
-    compare(repo.findByCpf(professor.cpf), professor);
+    compare(professorDao.findByCpf(professor.cpf), professor);
   }
 
   @Test
@@ -85,7 +85,7 @@ public class ProfessorControllerTest {
 
   @Test
   void deletaProfessorExistente() throws Exception {
-    Professor professor = repo.save(ProfessorFactory.build());
+    Professor professor = professorDao.save(ProfessorFactory.build());
 
     mvc.perform(
         MockMvcRequestBuilders.delete(String.format("/api/professores/%d", professor.getId()))
@@ -94,12 +94,12 @@ public class ProfessorControllerTest {
   }
 
   private void compare(Professor professor, ProfessorDto professorResource) {
-    assertEquals(professor.getAddress(), professorResource.address);
+    assertEquals(professor.getEndereco(), professorResource.endereco);
     assertEquals(professor.getCpf(), professorResource.cpf);
     assertEquals(professor.getRg(), professorResource.rg);
-    assertEquals(professor.getPhoneNumber(), professorResource.phoneNumber);
+    assertEquals(professor.getTelefone(), professorResource.telefone);
     assertEquals(professor.getEmail(), professorResource.email);
-    assertEquals(professor.getName(), professorResource.name);
-    assertEquals(professor.getPasswordDigest(), Sha256.encryptPassword(professorResource.password));
+    assertEquals(professor.getNome(), professorResource.nome);
+    assertEquals(professor.getHashSenha(), Sha256.encryptPassword(professorResource.senha));
   }
 }

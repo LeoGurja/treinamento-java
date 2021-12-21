@@ -18,55 +18,59 @@ import br.uff.sispre.model.Aluno;
 @Service
 public class AlunoService {
   @Autowired
-  private AlunoDao repo;
+  private AlunoDao alunoDao;
 
   @Autowired
-  private TurmaDao turmaRepo;
+  private TurmaDao turmaDao;
 
   private Aluno aluno;
 
-  public Aluno find(Long id) {
-    return repo.findById(id).get();
+  public Aluno porId(Long id) {
+    return alunoDao.findById(id).get();
   }
 
-  public Aluno create(AlunoDto params) {
+  public Aluno criaAluno(AlunoDto params) {
     aluno = new Aluno();
-    apply(params);
+    aplicaParametros(params);
     try {
-      return repo.save(aluno);
+      return alunoDao.save(aluno);
     } catch (DataIntegrityViolationException e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível criar o aluno!");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possível criar o aluno!");
     }
   }
 
-  public Aluno update(Long id, AlunoDto params) {
-    aluno = repo.findById(id).get();
-    validateOnUpdate(params);
-    apply(params);
-    return repo.save(aluno);
+  public Aluno alteraAluno(Long id, AlunoDto params) {
+    aluno = alunoDao.findById(id).get();
+    validaAlteracao(params);
+    aplicaParametros(params);
+    try {
+      return alunoDao.save(aluno);
+    } catch (DataIntegrityViolationException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possível alterar o aluno!");
+    }
   }
 
-  public void delete(Long id) {
-    repo.deleteById(id);
+  public void deletaAluno(Long id) {
+    alunoDao.deleteById(id);
   }
 
-  public List<Aluno> all() {
-    return (List<Aluno>) repo.findAll();
+  public List<Aluno> listaAlunos() {
+    return (List<Aluno>) alunoDao.findAll();
   }
 
-  void apply(AlunoDto params) {
+  private void aplicaParametros(AlunoDto params) {
     aluno.setCpf(Sanitizer.sanitize(Sanitizer.cpf, params.cpf));
     aluno.setRg(Sanitizer.sanitize(Sanitizer.rg, params.rg));
-    aluno.setName(params.name);
-    aluno.setAddress(params.address);
-    aluno.setPhoneNumber(Sanitizer.sanitize(Sanitizer.phoneNumber, params.phoneNumber));
+    aluno.setNome(params.nome);
+    aluno.setEndereco(params.endereco);
+    aluno.setTelefone(Sanitizer.sanitize(Sanitizer.telefone, params.telefone));
     aluno.setEmail(params.email);
-    aluno.setPasswordDigest(Sha256.encryptPassword(params.password));
+    aluno.setHashSenha(Sha256.encryptPassword(params.senha));
     if (params.turmaId != null)
-      aluno.setTurma(turmaRepo.findById(params.turmaId));
+      aluno.setTurma(turmaDao.findById(params.turmaId));
   }
 
-  private void validateOnUpdate(AlunoDto params) {
+  private void validaAlteracao(AlunoDto params) {
     if (!aluno.getCpf().equals(params.cpf))
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possível alterar o cpf do aluno!");
   }

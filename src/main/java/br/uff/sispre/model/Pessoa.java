@@ -24,17 +24,17 @@ public abstract class Pessoa {
   private String rg;
 
   @Column(name = "name", nullable = false)
-  private String name;
+  private String nome;
 
   @Column(name = "address", nullable = false)
-  private String address;
+  private String endereco;
 
   @Column(name = "phone_number")
-  private String phoneNumber;
+  private String telefone;
 
   @Column(name = "email")
   private String email;
 
   @Column(name = "password_digest")
-  private String passwordDigest;
+  private String hashSenha;
 }

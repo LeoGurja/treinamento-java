@@ -11,8 +11,8 @@ public abstract class ProfessorFactory {
     Professor professor = new Professor();
     professor.setCpf(String.format("%d", cpfCounter++));
     professor.setRg(String.format("%d", rgCounter++));
-    professor.setName(String.format("Professor %d", nameCounter++));
-    professor.setAddress("Algum lugar");
+    professor.setNome(String.format("Professor %d", nameCounter++));
+    professor.setEndereco("Algum lugar");
     return professor;
   }
 }
