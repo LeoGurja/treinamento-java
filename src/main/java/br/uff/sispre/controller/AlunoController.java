@@ -14,9 +14,8 @@ public class AlunoController {
   @Autowired
   private AlunoService alunoService;
 
-  @GetMapping("/")
-  public String listaAlunos(Model model) {
-    model.addAttribute("alunos", alunoService.listaAlunos());
+  @GetMapping
+  public String listaAlunos() {
     return "alunos/index";
   }
 
