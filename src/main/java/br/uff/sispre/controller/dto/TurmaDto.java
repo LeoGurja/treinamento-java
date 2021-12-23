@@ -3,6 +3,8 @@ package br.uff.sispre.controller.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.uff.sispre.model.Aluno;
@@ -22,6 +24,7 @@ public class TurmaDto {
   public List<Long> alunoIds;
 
   @JsonProperty
+  @NotEmpty
   public String nome;
 
   public TurmaDto(Turma turma) {

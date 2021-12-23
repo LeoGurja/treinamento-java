@@ -3,6 +3,8 @@ package br.uff.sispre.controller.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.uff.sispre.model.Materia;
@@ -23,9 +25,11 @@ public class MateriaDto {
   public List<Long> notaIds;
 
   @JsonProperty
+  @NotEmpty
   public String nome;
 
   @JsonProperty
+  @NotEmpty
   public String descricao;
 
   @JsonProperty
